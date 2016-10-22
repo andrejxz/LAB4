@@ -69,6 +69,7 @@ BEGIN_MESSAGE_MAP(CLAB4Dlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CLAB4Dlg::OnBnClickedButton1)
+	ON_LBN_SELCHANGE(IDC_LIST3, &CLAB4Dlg::OnLbnSelchangeList3)
 END_MESSAGE_MAP()
 
 
@@ -169,11 +170,23 @@ void CLAB4Dlg::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 void CLAB4Dlg::OnBnClickedButton1()
 {
 	Book newBook;
-	Name;
-	CString text;
-	GetDlgItemText(IDC_EDIT1, text);
-	newBook.SetName(text);
+	CString name;
+	CString author;
+	CString year;
+	CString cost;
+	CString count;
+	CString giveCount;
+	GetDlgItemText(IDC_EDIT1, name);
+	GetDlgItemText(IDC_EDIT2, author);
+	GetDlgItemText(IDC_EDIT3, year);
+	GetDlgItemText(IDC_EDIT4, cost);
+	GetDlgItemText(IDC_EDIT5, count);
+	GetDlgItemText(IDC_EDIT6, giveCount);
+	newBook.SetAll(name, author, _wtoi(year), _ttof(cost), _tcstoul(count, 0, 0), _tcstoul(giveCount, 0, 0));
 	db.Books.AddNewRow(newBook);
+	// очистка поля ввода
+	Name.SetSel(0, -1);
+	Name.Clear();
 	ShowAll();
 }
 void CLAB4Dlg::ShowAll()
@@ -182,10 +195,18 @@ void CLAB4Dlg::ShowAll()
 }
 void CLAB4Dlg::ShowBooks()
 {
-	
+	_books.ResetContent();
 	for (std::map<unsigned, Book>::iterator i = db.Books._data.begin();i != db.Books._data.end();++i) {
 		CString str = i->second.ToString();
 		_books.AddString(str);
 	}
 	UpdateWindow();
+}
+
+
+void CLAB4Dlg::OnLbnSelchangeList3()
+{
+
+	UpdateWindow();
+	
 }

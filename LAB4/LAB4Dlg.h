@@ -39,4 +39,5 @@ public:
 	void ShowAll();
 	void ShowBooks();
 	CListBox _books;
+	afx_msg void OnLbnSelchangeList3();
 };

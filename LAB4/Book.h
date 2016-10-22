@@ -6,8 +6,8 @@
 // описывает одну книгу
 class Book : public TableRow
 {
-	CString _name;			// название книги
-	CString _author;		// автор
+	CString _name;				// название книги
+	CString _author;			// автор
 	int _year = 0;				// год издания
 	float _cost = 0;			// цена книги
 	unsigned _count = 0;		// число экземпляров
@@ -21,6 +21,7 @@ public:
 	unsigned GetCount() { return _count; }
 	unsigned GetGiveCount() { return _giveCount; }
 
+	void SetAll(CString name, CString author, int year, float cost, unsigned count, unsigned giveCount);
 	void SetName(CString name) { _name = name; }
 	void SetAuthor(CString author) { _author = author; }
 	void SetYear(int year) { _year = year; }
