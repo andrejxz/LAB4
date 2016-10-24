@@ -38,6 +38,12 @@ public:
 	CEdit Name;
 	void ShowAll();
 	void ShowBooks();
+	void ShowReaders();
+	void ShowGive();
 	CListBox _books;
 	afx_msg void OnLbnSelchangeList3();
+	afx_msg void OnBnClickedButton3();
+	CListBox _reader;
+	CListBox _gives;
+	afx_msg void OnBnClickedButton5();
 };

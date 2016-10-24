@@ -7,6 +7,7 @@
 #include "LAB4Dlg.h"
 #include "afxdialogex.h"
 #include "DataBase.h"
+#include "Give.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -62,6 +63,8 @@ void CLAB4Dlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_EDIT1, Name);
 	DDX_Control(pDX, IDC_LIST3, _books);
+	DDX_Control(pDX, IDC_LIST4, _reader);
+	DDX_Control(pDX, IDC_LIST5, _gives);
 }
 
 BEGIN_MESSAGE_MAP(CLAB4Dlg, CDialogEx)
@@ -70,6 +73,8 @@ BEGIN_MESSAGE_MAP(CLAB4Dlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CLAB4Dlg::OnBnClickedButton1)
 	ON_LBN_SELCHANGE(IDC_LIST3, &CLAB4Dlg::OnLbnSelchangeList3)
+	ON_BN_CLICKED(IDC_BUTTON3, &CLAB4Dlg::OnBnClickedButton3)
+	ON_BN_CLICKED(IDC_BUTTON5, &CLAB4Dlg::OnBnClickedButton5)
 END_MESSAGE_MAP()
 
 
@@ -192,21 +197,92 @@ void CLAB4Dlg::OnBnClickedButton1()
 void CLAB4Dlg::ShowAll()
 {
 	ShowBooks();
+	ShowReaders();
+	ShowGive();
 }
 void CLAB4Dlg::ShowBooks()
 {
+	SetDlgItemText(IDC_EDIT1, L"");
+	SetDlgItemText(IDC_EDIT2, L"");
+	SetDlgItemText(IDC_EDIT3, L"");
+	SetDlgItemText(IDC_EDIT4, L"");
+	SetDlgItemText(IDC_EDIT5, L"");
+	SetDlgItemText(IDC_EDIT6, L"");
 	_books.ResetContent();
-	for (std::map<unsigned, Book>::iterator i = db.Books._data.begin();i != db.Books._data.end();++i) {
-		CString str = i->second.ToString();
-		_books.AddString(str);
-	}
-	UpdateWindow();
+	for (auto i = db.Books._data.begin();i != db.Books._data.end();++i) 
+		_books.AddString(i->second.ToString());
+}
+void CLAB4Dlg::ShowReaders()
+{
+	_reader.ResetContent();
+	for (auto i = db.Readers._data.begin();i != db.Readers._data.end();++i) 
+		_reader.AddString(i->second.ToString());
+}
+void CLAB4Dlg::ShowGive()
+{
+	_gives.ResetContent();
+	for (auto i = db.Gives._data.begin();i != db.Gives._data.end();++i)
+		_gives.AddString(i->second.ToString());
 }
 
 
 void CLAB4Dlg::OnLbnSelchangeList3()
 {
+	UpdateWindow();	
+}
 
-	UpdateWindow();
-	
+
+void CLAB4Dlg::OnBnClickedButton3()
+{
+	Reader newReader;
+	CString str;
+	GetDlgItemText(IDC_EDIT10, str);
+	newReader.SetFio(str);
+	GetDlgItemText(IDC_EDIT11, str);
+	newReader.SetAddress(str);
+	GetDlgItemText(IDC_EDIT12, str);
+	newReader.SetPhone(str);
+	db.Readers.AddNewRow(newReader);
+	ShowAll();
+}
+
+
+void CLAB4Dlg::OnBnClickedButton5()
+{
+	Give newGive;
+	CString str;
+	GetDlgItemText(IDC_EDIT13, str);
+	newGive.SetReaderId(_wtoi(str));
+
+	GetDlgItemText(IDC_EDIT14, str);
+	newGive.SetBookId(_wtoi(str));
+
+	GetDlgItemText(IDC_EDIT15, str);
+	newGive.SetCopyNumber(_wtoi(str));
+
+	// задаем дату выдачи
+	Date date;
+	int day, month, year;
+	GetDlgItemText(IDC_EDIT16, str);
+	day = _wtoi(str);
+	GetDlgItemText(IDC_EDIT7, str);
+	month = _wtoi(str);
+	GetDlgItemText(IDC_EDIT8, str);
+	year = _wtoi(str);
+	date.SetDate(day, month, year);
+	newGive.SetGiveDate(date);
+
+	// задаем дату получения
+	GetDlgItemText(IDC_EDIT19, str);
+	day = _wtoi(str);
+	GetDlgItemText(IDC_EDIT18, str);
+	month = _wtoi(str);
+	GetDlgItemText(IDC_EDIT20, str);
+	year = _wtoi(str);
+	date.SetDate(day, month, year);
+	newGive.SetReturnDate(date);
+
+	db.Gives.AddNewRow(newGive);
+
+	ShowAll();
 }
