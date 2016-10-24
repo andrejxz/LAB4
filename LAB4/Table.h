@@ -33,6 +33,7 @@ public:
 		SetPrototype(prototype);
 	}
 
+
 	RowType operator[](unsigned id)	// возвращает строку по ее ID
 	{
 		// ограничитель

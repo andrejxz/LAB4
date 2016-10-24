@@ -1,4 +1,3 @@
-
 // LAB4Dlg.cpp : файл реализации
 //
 
@@ -75,6 +74,9 @@ BEGIN_MESSAGE_MAP(CLAB4Dlg, CDialogEx)
 	ON_LBN_SELCHANGE(IDC_LIST3, &CLAB4Dlg::OnLbnSelchangeList3)
 	ON_BN_CLICKED(IDC_BUTTON3, &CLAB4Dlg::OnBnClickedButton3)
 	ON_BN_CLICKED(IDC_BUTTON5, &CLAB4Dlg::OnBnClickedButton5)
+//	ON_LBN_SELCHANGE(IDC_LIST4, &CLAB4Dlg::OnLbnSelchangeList4)
+//ON_LBN_DBLCLK(IDC_LIST3, &CLAB4Dlg::OnLbnDblclkList3)
+ON_LBN_DBLCLK(IDC_LIST3, &CLAB4Dlg::OnLbnDblclkList3)
 END_MESSAGE_MAP()
 
 
@@ -285,4 +287,28 @@ void CLAB4Dlg::OnBnClickedButton5()
 	db.Gives.AddNewRow(newGive);
 
 	ShowAll();
+}
+
+
+void CLAB4Dlg::OnLbnDblclkList3()
+{
+	int curindex = _books.GetCurSel();
+	int index = 0;
+	for (auto i = db.Books._data.begin();i != db.Books._data.end();++i){
+		if (index == curindex) {
+			ShowBook(i->second);
+			return;
+		}
+		++index;
+	}
+}
+void CLAB4Dlg::ShowBook(Book book)
+{
+	SetDlgItemText(IDC_EDIT1, book.GetName());
+	SetDlgItemText(IDC_EDIT2, book.GetAuthor());
+	wchar_t str[80];
+	SetDlgItemText(IDC_EDIT3, _itow(book.GetYear(), str,10));
+	SetDlgItemText(IDC_EDIT4, _itow(book.GetCost(), str,10));
+	SetDlgItemText(IDC_EDIT5, _itow(book.GetCount(), str,10));
+	SetDlgItemText(IDC_EDIT6, _itow(book.GetGiveCount(), str,10));
 }

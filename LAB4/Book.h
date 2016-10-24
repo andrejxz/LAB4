@@ -14,12 +14,12 @@ class Book : public TableRow
 	unsigned _giveCount = 0;	// число выданых экземпл€ров
 public:
 
-	CString GetName() { return _name; }
-	CString GetAuthor() { return _author; }
-	int GetYear() { return _year; }
-	float GetCost() { return _cost; }
-	unsigned GetCount() { return _count; }
-	unsigned GetGiveCount() { return _giveCount; }
+	CString GetName() const { return _name; }
+	CString GetAuthor() const { return _author; }
+	int GetYear() const { return _year; }
+	float GetCost() const { return _cost; }
+	unsigned GetCount() const { return _count; }
+	unsigned GetGiveCount() const { return _giveCount; }
 
 	void SetAll(CString name, CString author, int year, float cost, unsigned count, unsigned giveCount);
 	void SetName(CString name) { _name = name; }
