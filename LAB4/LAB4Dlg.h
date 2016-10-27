@@ -5,6 +5,8 @@
 #pragma once
 #include "afxwin.h"
 #include "Book.h"
+#include "Reader.h"
+#include "Give.h"
 
 
 // диалоговое окно CLAB4Dlg
@@ -40,8 +42,10 @@ public:
 	void ShowAll();
 	void ShowBooks();
 	void ShowReaders();
-	void ShowGive();
+	void ShowGives();
 	void ShowBook(Book book);
+	void ShowReader(Reader reader);
+	void ShowGive(Give give);
 	CListBox _books;
 	afx_msg void OnLbnSelchangeList3();
 	afx_msg void OnBnClickedButton3();
@@ -51,4 +55,7 @@ public:
 //	afx_msg void OnLbnSelchangeList4();
 //	afx_msg void OnLbnDblclkList3();
 	afx_msg void OnLbnDblclkList3();
+	afx_msg void OnLbnDblclkList4();
+	afx_msg void OnBnClickedOk();
+	afx_msg void OnLbnDblclkList5();
 };

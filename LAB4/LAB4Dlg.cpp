@@ -77,6 +77,9 @@ BEGIN_MESSAGE_MAP(CLAB4Dlg, CDialogEx)
 //	ON_LBN_SELCHANGE(IDC_LIST4, &CLAB4Dlg::OnLbnSelchangeList4)
 //ON_LBN_DBLCLK(IDC_LIST3, &CLAB4Dlg::OnLbnDblclkList3)
 ON_LBN_DBLCLK(IDC_LIST3, &CLAB4Dlg::OnLbnDblclkList3)
+ON_LBN_DBLCLK(IDC_LIST4, &CLAB4Dlg::OnLbnDblclkList4)
+ON_BN_CLICKED(IDOK, &CLAB4Dlg::OnBnClickedOk)
+ON_LBN_DBLCLK(IDC_LIST5, &CLAB4Dlg::OnLbnDblclkList5)
 END_MESSAGE_MAP()
 
 
@@ -173,37 +176,36 @@ void CLAB4Dlg::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 	*pResult = 0;
 }
 
-
+// Добавление книги
 void CLAB4Dlg::OnBnClickedButton1()
 {
 	Book newBook;
-	CString name;
-	CString author;
-	CString year;
-	CString cost;
-	CString count;
-	CString giveCount;
-	GetDlgItemText(IDC_EDIT1, name);
-	GetDlgItemText(IDC_EDIT2, author);
-	GetDlgItemText(IDC_EDIT3, year);
-	GetDlgItemText(IDC_EDIT4, cost);
-	GetDlgItemText(IDC_EDIT5, count);
-	GetDlgItemText(IDC_EDIT6, giveCount);
-	newBook.SetAll(name, author, _wtoi(year), _ttof(cost), _tcstoul(count, 0, 0), _tcstoul(giveCount, 0, 0));
+	CString str;
+	GetDlgItemText(IDC_EDIT1, str);
+	newBook.SetName(str);
+	GetDlgItemText(IDC_EDIT2, str);
+	newBook.SetAuthor(str);
+	GetDlgItemText(IDC_EDIT3, str);
+	newBook.SetYear(_wtoi(str));
+	GetDlgItemText(IDC_EDIT4, str);
+	newBook.SetCost(_ttof(str));
+	GetDlgItemText(IDC_EDIT5, str);
+	newBook.SetCount(_tcstoul(str, 0, 0));
+	GetDlgItemText(IDC_EDIT6, str);
+	newBook.SetGiveCount(_tcstoul(str, 0, 0));
 	db.Books.AddNewRow(newBook);
-	// очистка поля ввода
-	Name.SetSel(0, -1);
-	Name.Clear();
 	ShowAll();
 }
 void CLAB4Dlg::ShowAll()
 {
 	ShowBooks();
 	ShowReaders();
-	ShowGive();
+	ShowGives();
 }
+
 void CLAB4Dlg::ShowBooks()
 {
+	// Очистка полей
 	SetDlgItemText(IDC_EDIT1, L"");
 	SetDlgItemText(IDC_EDIT2, L"");
 	SetDlgItemText(IDC_EDIT3, L"");
@@ -211,18 +213,37 @@ void CLAB4Dlg::ShowBooks()
 	SetDlgItemText(IDC_EDIT5, L"");
 	SetDlgItemText(IDC_EDIT6, L"");
 	_books.ResetContent();
+	// Вывод списка
 	for (auto i = db.Books._data.begin();i != db.Books._data.end();++i) 
 		_books.AddString(i->second.ToString());
 }
+
 void CLAB4Dlg::ShowReaders()
 {
+	// Очистка полей
+	SetDlgItemText(IDC_EDIT9, L"");
+	SetDlgItemText(IDC_EDIT10, L"");
+	SetDlgItemText(IDC_EDIT11, L"");
+	SetDlgItemText(IDC_EDIT12, L"");
 	_reader.ResetContent();
+	// Вывод списка
 	for (auto i = db.Readers._data.begin();i != db.Readers._data.end();++i) 
 		_reader.AddString(i->second.ToString());
 }
-void CLAB4Dlg::ShowGive()
+void CLAB4Dlg::ShowGives()
 {
+	// Очистка полей
+	SetDlgItemText(IDC_EDIT13, L"");
+	SetDlgItemText(IDC_EDIT14, L"");
+	SetDlgItemText(IDC_EDIT15, L"");
+	SetDlgItemText(IDC_EDIT16, L"");
+	SetDlgItemText(IDC_EDIT7, L"");
+	SetDlgItemText(IDC_EDIT8, L"");
+	SetDlgItemText(IDC_EDIT19, L"");
+	SetDlgItemText(IDC_EDIT18, L"");
+	SetDlgItemText(IDC_EDIT20, L"");
 	_gives.ResetContent();
+	// Вывод списка
 	for (auto i = db.Gives._data.begin();i != db.Gives._data.end();++i)
 		_gives.AddString(i->second.ToString());
 }
@@ -311,4 +332,63 @@ void CLAB4Dlg::ShowBook(Book book)
 	SetDlgItemText(IDC_EDIT4, _itow(book.GetCost(), str,10));
 	SetDlgItemText(IDC_EDIT5, _itow(book.GetCount(), str,10));
 	SetDlgItemText(IDC_EDIT6, _itow(book.GetGiveCount(), str,10));
+}
+
+void CLAB4Dlg::ShowReader(Reader reader)
+{
+	// ???
+	wchar_t str[80];
+	SetDlgItemText(IDC_EDIT9, _itow(reader.GetId(),str,10));
+	SetDlgItemText(IDC_EDIT10, reader.GetFio());
+	SetDlgItemText(IDC_EDIT11, reader.GetAddress());
+	SetDlgItemText(IDC_EDIT12, reader.GetPhone());
+}
+
+void CLAB4Dlg::OnLbnDblclkList4()
+{
+	int curindex = _reader.GetCurSel();
+	int index = 0;
+	for (auto i = db.Readers._data.begin(); i != db.Readers._data.end(); ++i) {
+		if (index == curindex) {
+			ShowReader(i->second);
+			return;
+		}
+		++index;
+	}
+}
+
+void CLAB4Dlg::ShowGive(Give give)
+{
+	wchar_t str[80];
+	SetDlgItemText(IDC_EDIT13, _itow(give.GetReaderId(), str, 10));
+	SetDlgItemText(IDC_EDIT14, _itow(give.GetBookId(),str,10));
+	SetDlgItemText(IDC_EDIT15, _itow(give.GetCopyNumber(),str,10));
+	// ???
+	SetDlgItemText(IDC_EDIT16, L"");
+	SetDlgItemText(IDC_EDIT7, L"");
+	SetDlgItemText(IDC_EDIT8, L"");
+	SetDlgItemText(IDC_EDIT19, L"");
+	SetDlgItemText(IDC_EDIT18, L"");
+	SetDlgItemText(IDC_EDIT20, L"");
+}
+
+
+void CLAB4Dlg::OnBnClickedOk()
+{
+	// TODO: добавьте свой код обработчика уведомлений
+	CDialogEx::OnOK();
+}
+
+
+void CLAB4Dlg::OnLbnDblclkList5()
+{
+	int curindex = _gives.GetCurSel();
+	int index = 0;
+	for (auto i = db.Gives._data.begin(); i != db.Gives._data.end(); ++i) {
+		if (index == curindex) {
+			ShowGive(i->second);
+			return;
+		}
+		++index;
+	}
 }
