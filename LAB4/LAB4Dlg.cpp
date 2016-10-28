@@ -387,7 +387,6 @@ void CLAB4Dlg::ShowGive(Give give)
 	SetDlgItemText(IDC_EDIT13, _itow(give.GetReaderId(), str, 10));
 	SetDlgItemText(IDC_EDIT14, _itow(give.GetBookId(),str,10));
 	SetDlgItemText(IDC_EDIT15, _itow(give.GetCopyNumber(),str,10));
-	// ???
 	SetDlgItemText(IDC_EDIT16, _itow(give.GetGiveDate().GetDay(),str,10));
 	SetDlgItemText(IDC_EDIT7, _itow(give.GetGiveDate().GetMonth(), str, 10));
 	SetDlgItemText(IDC_EDIT8, _itow(give.GetGiveDate().GetYear(), str, 10));
