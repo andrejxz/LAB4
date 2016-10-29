@@ -80,6 +80,8 @@ ON_LBN_DBLCLK(IDC_LIST5, &CLAB4Dlg::OnLbnDblclkList5)
 ON_BN_CLICKED(IDC_BUTTON2, &CLAB4Dlg::OnBnClickedButton2)
 ON_BN_CLICKED(IDC_BUTTON7, &CLAB4Dlg::OnBnClickedButton7)
 ON_BN_CLICKED(IDC_BUTTON8, &CLAB4Dlg::OnBnClickedButton8)
+ON_BN_CLICKED(IDC_BUTTON6, &CLAB4Dlg::OnBnClickedButton6)
+ON_BN_CLICKED(IDC_BUTTON4, &CLAB4Dlg::OnBnClickedButton4)
 END_MESSAGE_MAP()
 
 
@@ -264,6 +266,7 @@ void CLAB4Dlg::ShowAll()
 	ShowBooks();
 	ShowReaders();
 	ShowGives();
+	LibInf();
 }
 
 // Вывод списка книг
@@ -292,7 +295,6 @@ void CLAB4Dlg::ShowReaders()
 	SetDlgItemText(IDC_EDIT12, L"");
 	_reader.ResetContent();
 	// Вывод списка
-	//lib.GetDB().Books.Size();
 	for (auto i = lib.GetDB().Readers._data.begin();i != lib.GetDB().Readers._data.end();++i) 
 		_reader.AddString(i->second.ToString());
 }
@@ -310,6 +312,7 @@ void CLAB4Dlg::ShowGives()
 	SetDlgItemText(IDC_EDIT19, L"");
 	SetDlgItemText(IDC_EDIT18, L"");
 	SetDlgItemText(IDC_EDIT20, L"");
+	SetDlgItemText(IDC_EDIT22, L"");
 	_gives.ResetContent();
 	// Вывод списка
 	for (auto i = lib.GetDB().Gives._data.begin();i != lib.GetDB().Gives._data.end();++i)
@@ -325,6 +328,16 @@ void CLAB4Dlg::OnLbnSelchangeList3()
 void CLAB4Dlg::OnLbnDblclkList3()
 {
 	ShowBookByIndex(_books.GetCurSel());
+}
+
+void CLAB4Dlg::ShowBookByIndex(int index)
+{
+	for (auto i = lib.GetDB().Books._data.begin(); i != lib.GetDB().Books._data.end(); ++i, --index) {
+		if (index == 0) {
+			ShowBook(i->second);
+			return;
+		}
+	}
 }
 
 // Показ информации о книге
@@ -401,19 +414,34 @@ void CLAB4Dlg::OnBnClickedOk()
 	CDialogEx::OnOK();
 }
 
+// Удаление Книги
 void CLAB4Dlg::OnBnClickedButton2()
 {
-	if (lib.GetDB().Books.RemoveAt(_books.GetCurSel())) ShowBooks();
+	if (lib.GetDB().Books.RemoveAt(_books.GetCurSel())) ShowAll();
 }
 
+// Удаление Читателя
+void CLAB4Dlg::OnBnClickedButton4()
+{
+	// ??? Надо ли ID билета уменьшать?
+	if (lib.GetDB().Readers.RemoveAt(_reader.GetCurSel())) ShowAll();
+}
 
+// Удаление Выдачи
+void CLAB4Dlg::OnBnClickedButton6()
+{
+	// ??? Надо ли ID билета уменьшать?
+	if (lib.GetDB().Gives.RemoveAt(_gives.GetCurSel())) ShowAll();
+}
+
+// Изменение выдачи
 void CLAB4Dlg::OnBnClickedButton7()
 {
 	if(lib.GetDB().Gives.EditRow(InputGive())) ShowGives();
-	else MessageBox(L"выдачу изменить не удалось - не верный id выдачи",L"Изменение выдачи");
+	else MessageBox(L"Выдачу изменить не удалось - не верный id выдачи", L"Изменение выдачи");
 }
 
-
+// Поиск книги
 void CLAB4Dlg::OnBnClickedButton8()
 {
 	// читаем имя книги
@@ -424,15 +452,14 @@ void CLAB4Dlg::OnBnClickedButton8()
 	// вывод результата поиска
 	_books.SetCurSel(index);
 	if (index >= 0) ShowBookByIndex(index);	
-	else MessageBox(L"книга не найдена", L"поиск книги");
+	else MessageBox(L"Книга не найдена", L"Поиск книги");
 }
 
-void CLAB4Dlg::ShowBookByIndex(int index)
+// Информация о библиотеке
+void CLAB4Dlg::LibInf()
 {
-	for (auto i = lib.GetDB().Books._data.begin();i != lib.GetDB().Books._data.end();++i,--index) {
-		if (index == 0) {
-			ShowBook(i->second);
-			return;
-		}
-	}
+	wchar_t str[80];
+	SetDlgItemText(IDC_EDIT28, _itow(lib.GetDB().Books.Size(),str,10));
+	SetDlgItemText(IDC_EDIT27, _itow(lib.GetDB().Readers.Size(), str, 10));
+	SetDlgItemText(IDC_EDIT26, _itow(lib.GetDB().Gives.Size(), str, 10));
 }
