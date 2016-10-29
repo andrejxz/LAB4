@@ -7,6 +7,8 @@
 #include "Book.h"
 #include "Reader.h"
 #include "Give.h"
+#include "DataBase.h"
+#include "Library.h"
 
 
 // диалоговое окно CLAB4Dlg
@@ -28,7 +30,7 @@ public:
 // Реализация
 protected:
 	HICON m_hIcon;
-
+	Library lib;
 	// Созданные функции схемы сообщений
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
@@ -46,6 +48,8 @@ public:
 	void ShowBook(Book book);
 	void ShowReader(Reader reader);
 	void ShowGive(Give give);
+	Give InputGive();
+	void ShowBookByIndex(int index);
 	CListBox _books;
 	afx_msg void OnLbnSelchangeList3();
 	afx_msg void OnBnClickedButton3();
@@ -58,4 +62,7 @@ public:
 	afx_msg void OnLbnDblclkList4();
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnLbnDblclkList5();
+	afx_msg void OnBnClickedButton2();
+	afx_msg void OnBnClickedButton7();
+	afx_msg void OnBnClickedButton8();
 };

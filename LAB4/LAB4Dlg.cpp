@@ -5,14 +5,11 @@
 #include "LAB4.h"
 #include "LAB4Dlg.h"
 #include "afxdialogex.h"
-#include "DataBase.h"
 #include "Give.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
-DataBase db;
 
 // Диалоговое окно CAboutDlg используется для описания сведений о приложении
 
@@ -80,6 +77,9 @@ ON_LBN_DBLCLK(IDC_LIST3, &CLAB4Dlg::OnLbnDblclkList3)
 ON_LBN_DBLCLK(IDC_LIST4, &CLAB4Dlg::OnLbnDblclkList4)
 ON_BN_CLICKED(IDOK, &CLAB4Dlg::OnBnClickedOk)
 ON_LBN_DBLCLK(IDC_LIST5, &CLAB4Dlg::OnLbnDblclkList5)
+ON_BN_CLICKED(IDC_BUTTON2, &CLAB4Dlg::OnBnClickedButton2)
+ON_BN_CLICKED(IDC_BUTTON7, &CLAB4Dlg::OnBnClickedButton7)
+ON_BN_CLICKED(IDC_BUTTON8, &CLAB4Dlg::OnBnClickedButton8)
 END_MESSAGE_MAP()
 
 
@@ -196,7 +196,7 @@ void CLAB4Dlg::OnBnClickedButton1()
 	GetDlgItemText(IDC_EDIT6, str);
 	newBook.SetGiveCount(_tcstoul(str, 0, 0));
 
-	db.Books.AddNewRow(newBook);
+	lib.GetDB().Books.AddNewRow(newBook);
 	ShowAll();
 }
 
@@ -212,15 +212,16 @@ void CLAB4Dlg::OnBnClickedButton3()
 	GetDlgItemText(IDC_EDIT12, str);
 	newReader.SetPhone(str);
 
-	db.Readers.AddNewRow(newReader);
+	lib.GetDB().Readers.AddNewRow(newReader);
 	ShowAll();
 }
 
-// Добавление выдачи
-void CLAB4Dlg::OnBnClickedButton5()
+Give CLAB4Dlg::InputGive()
 {
 	Give newGive;
 	CString str;
+	GetDlgItemText(IDC_EDIT22, str);
+	newGive.SetId(_wtoi(str));
 	GetDlgItemText(IDC_EDIT13, str);
 	newGive.SetReaderId(_wtoi(str));
 	GetDlgItemText(IDC_EDIT14, str);
@@ -249,8 +250,12 @@ void CLAB4Dlg::OnBnClickedButton5()
 	year = _wtoi(str);
 	date.SetDate(day, month, year);
 	newGive.SetReturnDate(date);
-
-	db.Gives.AddNewRow(newGive);
+	return newGive;
+}
+// Добавление выдачи
+void CLAB4Dlg::OnBnClickedButton5()
+{
+	lib.GetDB().Gives.AddNewRow(InputGive());
 	ShowAll();
 }
 
@@ -273,7 +278,7 @@ void CLAB4Dlg::ShowBooks()
 	SetDlgItemText(IDC_EDIT6, L"");
 	_books.ResetContent();
 	// Вывод списка
-	for (auto i = db.Books._data.begin();i != db.Books._data.end();++i) 
+	for (auto i = lib.GetDB().Books._data.begin();i != lib.GetDB().Books._data.end();++i)
 		_books.AddString(i->second.ToString());
 }
 
@@ -287,7 +292,8 @@ void CLAB4Dlg::ShowReaders()
 	SetDlgItemText(IDC_EDIT12, L"");
 	_reader.ResetContent();
 	// Вывод списка
-	for (auto i = db.Readers._data.begin();i != db.Readers._data.end();++i) 
+	//lib.GetDB().Books.Size();
+	for (auto i = lib.GetDB().Readers._data.begin();i != lib.GetDB().Readers._data.end();++i) 
 		_reader.AddString(i->second.ToString());
 }
 
@@ -306,7 +312,7 @@ void CLAB4Dlg::ShowGives()
 	SetDlgItemText(IDC_EDIT20, L"");
 	_gives.ResetContent();
 	// Вывод списка
-	for (auto i = db.Gives._data.begin();i != db.Gives._data.end();++i)
+	for (auto i = lib.GetDB().Gives._data.begin();i != lib.GetDB().Gives._data.end();++i)
 		_gives.AddString(i->second.ToString());
 }
 
@@ -318,15 +324,7 @@ void CLAB4Dlg::OnLbnSelchangeList3()
 // Получение id выбраного элемента двойным нажатием
 void CLAB4Dlg::OnLbnDblclkList3()
 {
-	int curindex = _books.GetCurSel();
-	int index = 0;
-	for (auto i = db.Books._data.begin();i != db.Books._data.end();++i){
-		if (index == curindex) {
-			ShowBook(i->second);
-			return;
-		}
-		++index;
-	}
+	ShowBookByIndex(_books.GetCurSel());
 }
 
 // Показ информации о книге
@@ -346,7 +344,7 @@ void CLAB4Dlg::OnLbnDblclkList4()
 {
 	int curindex = _reader.GetCurSel();
 	int index = 0;
-	for (auto i = db.Readers._data.begin(); i != db.Readers._data.end(); ++i) {
+	for (auto i = lib.GetDB().Readers._data.begin(); i != lib.GetDB().Readers._data.end(); ++i) {
 		if (index == curindex) {
 			ShowReader(i->second);
 			return;
@@ -371,7 +369,7 @@ void CLAB4Dlg::OnLbnDblclkList5()
 {
 	int curindex = _gives.GetCurSel();
 	int index = 0;
-	for (auto i = db.Gives._data.begin(); i != db.Gives._data.end(); ++i) {
+	for (auto i = lib.GetDB().Gives._data.begin(); i != lib.GetDB().Gives._data.end(); ++i) {
 		if (index == curindex) {
 			ShowGive(i->second);
 			return;
@@ -384,6 +382,7 @@ void CLAB4Dlg::OnLbnDblclkList5()
 void CLAB4Dlg::ShowGive(Give give)
 {
 	wchar_t str[80];
+	SetDlgItemText(IDC_EDIT22, _itow(give.GetId(), str, 10));
 	SetDlgItemText(IDC_EDIT13, _itow(give.GetReaderId(), str, 10));
 	SetDlgItemText(IDC_EDIT14, _itow(give.GetBookId(),str,10));
 	SetDlgItemText(IDC_EDIT15, _itow(give.GetCopyNumber(),str,10));
@@ -400,4 +399,40 @@ void CLAB4Dlg::OnBnClickedOk()
 {
 	// TODO: добавьте свой код обработчика уведомлений
 	CDialogEx::OnOK();
+}
+
+void CLAB4Dlg::OnBnClickedButton2()
+{
+	if (lib.GetDB().Books.RemoveAt(_books.GetCurSel())) ShowBooks();
+}
+
+
+void CLAB4Dlg::OnBnClickedButton7()
+{
+	if(lib.GetDB().Gives.EditRow(InputGive())) ShowGives();
+	else MessageBox(L"выдачу изменить не удалось - не верный id выдачи",L"Изменение выдачи");
+}
+
+
+void CLAB4Dlg::OnBnClickedButton8()
+{
+	// читаем имя книги
+	CString bookName;
+	GetDlgItemText(IDC_EDIT23, bookName);
+	// производим поиск индекса книги
+	int index = lib.FindBookListIndex(bookName);
+	// вывод результата поиска
+	_books.SetCurSel(index);
+	if (index >= 0) ShowBookByIndex(index);	
+	else MessageBox(L"книга не найдена", L"поиск книги");
+}
+
+void CLAB4Dlg::ShowBookByIndex(int index)
+{
+	for (auto i = lib.GetDB().Books._data.begin();i != lib.GetDB().Books._data.end();++i,--index) {
+		if (index == 0) {
+			ShowBook(i->second);
+			return;
+		}
+	}
 }

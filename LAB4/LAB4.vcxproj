@@ -195,6 +195,7 @@
     <ClInclude Include="Give.h" />
     <ClInclude Include="LAB4.h" />
     <ClInclude Include="LAB4Dlg.h" />
+    <ClInclude Include="Library.h" />
     <ClInclude Include="Reader.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="Give.cpp" />
     <ClCompile Include="LAB4.cpp" />
     <ClCompile Include="LAB4Dlg.cpp" />
+    <ClCompile Include="Library.cpp" />
     <ClCompile Include="Reader.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -52,14 +52,35 @@ public:
 		// вывод результата
 		return newRow;
 	}
+	bool EditRow(RowType row)
+	{
+		// ограничитель если запись не верная
+		if (row.GetId() == 0) return false;
+		// ограничитель. если в контейнере нет строки с указанным ID то выход
+		if (_data.find(row.GetId()) == _data.end()) return false;
+		// смена значения
+		_data[row.GetId()] = row;
+	}
 	void Remove(unsigned id)
 	{
 		_data.erase(id);
-		for (auto i = Observers.begin();i < Observers.end();++i) i->OnRemoveRow(id);
 	}
 	void Clear()
 	{
 		_data.clear();
 		for (auto i = Observers.begin();i < Observers.end();++i) i->Onclear(id);
+	}
+	bool RemoveAt(int index)
+	{
+		for (auto i =_data.begin();i !=_data.end() && index>=0;++i, --index)
+			if (index == 0) {
+				Remove(i->second.GetId());
+				return true;
+			}
+		return false;
+	}
+	int Size()
+	{
+		return _data.size();
 	}
 };

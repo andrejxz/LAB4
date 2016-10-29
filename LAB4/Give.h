@@ -24,8 +24,10 @@ public:
 	void SetCopyNumber(unsigned copyNumber) { _copyNumber = copyNumber; }
 	void SetGiveDate(Date giveDate) { _giveDate = giveDate; }
 	void SetReturnDate(Date returnDate) { _returnDate = returnDate; }
-	// ???
-	wchar_t str[80];
-	virtual CString ToString() { return _itow(GetBookId(), str, 10); }
+	virtual CString ToString() 
+	{
+		wchar_t str[80];
+		return _itow(GetBookId(), str, 10);
+	}
 };
 
