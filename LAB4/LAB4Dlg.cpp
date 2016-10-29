@@ -273,6 +273,7 @@ void CLAB4Dlg::ShowAll()
 void CLAB4Dlg::ShowBooks()
 {
 	// Очистка полей
+	SetDlgItemText(IDC_EDIT21, L"");
 	SetDlgItemText(IDC_EDIT1, L"");
 	SetDlgItemText(IDC_EDIT2, L"");
 	SetDlgItemText(IDC_EDIT3, L"");
@@ -343,9 +344,10 @@ void CLAB4Dlg::ShowBookByIndex(int index)
 // Показ информации о книге
 void CLAB4Dlg::ShowBook(Book book)
 {
+	wchar_t str[80];
+	SetDlgItemText(IDC_EDIT21, _itow(book.GetId(),str,10));
 	SetDlgItemText(IDC_EDIT1, book.GetName());
 	SetDlgItemText(IDC_EDIT2, book.GetAuthor());
-	wchar_t str[80];
 	SetDlgItemText(IDC_EDIT3, _itow(book.GetYear(), str,10));
 	SetDlgItemText(IDC_EDIT4, _itow(book.GetCost(), str,10));
 	SetDlgItemText(IDC_EDIT5, _itow(book.GetCount(), str,10));
