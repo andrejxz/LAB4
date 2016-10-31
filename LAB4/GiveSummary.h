@@ -45,15 +45,17 @@ public:
 		tm* timeinfo = localtime(&seconds);
 
 		int delta;
-		delta = give.GetReturnDate().GetYear() - timeinfo->tm_year + 1900;
+		delta = (timeinfo->tm_year + 1900) - (give.GetReturnDate().GetYear());
+		int delta2 = give.GetReturnDate().GetYear();
 		res += (delta > 0) ? (delta * 365) : 0;
 
-		delta = give.GetReturnDate().GetMonth() - timeinfo->tm_mon + 1;
+		delta = (timeinfo->tm_mon + 1) - (give.GetReturnDate().GetMonth());
 		res += (delta > 0) ? (delta * 31) : 0;
 
-		delta = give.GetReturnDate().GetDay() - timeinfo->tm_mday;
+		delta = (timeinfo->tm_mday) - (give.GetReturnDate().GetDay());
 		res += (delta > 0) ? delta : 0;
 
+		// ???
 		return res;
 	}
 	static GiveSummary Make(Give &give, DataBase &db, double dayPenya)
@@ -70,9 +72,9 @@ public:
 
 	CString ToString()
 	{
-		//CString str = _itoa(_penya, str,10);
-		//return _reader.ToString()+str;
-		return _reader.ToString();
+		CString str;
+		str.Format(_T("%f"), _penya);
+		return _reader.ToString()+L" "+ str;
 	}
 };
 

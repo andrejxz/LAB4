@@ -2,12 +2,12 @@
 #include "DataBase.h"
 
 
-// ???
+
 DataBase::DataBase()
 {
-	Book bookPrototype;
-	bookPrototype.SetName(L"Новая книга");
-	Books.SetPrototype(bookPrototype);
+//	Book bookPrototype;
+//	bookPrototype.SetName(L"Новая книга");
+//	Books.SetPrototype(bookPrototype);
 }
 
 

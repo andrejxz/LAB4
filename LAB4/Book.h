@@ -9,7 +9,7 @@ class Book : public TableRow
 	CString _name;				// название книги
 	CString _author;			// автор
 	int _year = 0;				// год издания
-	float _cost = 0;			// цена книги
+	double _cost = 0;			// цена книги
 	unsigned _count = 0;		// число экземпляров
 	unsigned _giveCount = 0;	// число выданых экземпляров
 public:
@@ -17,7 +17,7 @@ public:
 	CString GetName() const { return _name; }
 	CString GetAuthor() const { return _author; }
 	int GetYear() const { return _year; }
-	float GetCost() const { return _cost; }
+	double GetCost() const { return _cost; }
 	unsigned GetCount() const { return _count; }
 	unsigned GetGiveCount() const { return _giveCount; }
 
@@ -25,7 +25,7 @@ public:
 	void SetName(CString name) { _name = name; }
 	void SetAuthor(CString author) { _author = author; }
 	void SetYear(int year) { _year = year; }
-	void SetCost(float cost) { _cost = cost; }
+	void SetCost(double cost) { _cost = cost; }
 	void SetCount(unsigned count) { _count = count; }
 	void SetGiveCount(unsigned giveCount) { _giveCount = giveCount; }
 

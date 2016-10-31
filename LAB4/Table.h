@@ -12,7 +12,7 @@ class Table
 	class IObserver;
 	RowType _prototype;					// прототип, для создания нового элемента
 	unsigned _currentId = 0;			// текущий ID новой записи
-	void CheckId(unsigned id)	// проверяет наличие id и выдает исключение если его нет
+	void CheckId(unsigned id)			// проверяет наличие id и выдает исключение если его нет
 	{
 		if (_data.find(id) == _data::end()) throw "Не удалось получить строку - такой строки нет";
 	}

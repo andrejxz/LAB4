@@ -373,7 +373,6 @@ void CLAB4Dlg::OnLbnDblclkList4()
 // Показ информации Читателя
 void CLAB4Dlg::ShowReader(Reader reader)
 {
-	// ???
 	wchar_t str[80];
 	SetDlgItemText(IDC_EDIT9, _itow(reader.GetId(),str,10));
 	SetDlgItemText(IDC_EDIT10, reader.GetFio());
@@ -427,14 +426,12 @@ void CLAB4Dlg::OnBnClickedButton2()
 // Удаление Читателя
 void CLAB4Dlg::OnBnClickedButton4()
 {
-	// ??? Надо ли ID билета уменьшать?
 	if (lib.GetDB().Readers.RemoveAt(_reader.GetCurSel())) ShowAll();
 }
 
 // Удаление Выдачи
 void CLAB4Dlg::OnBnClickedButton6()
 {
-	// ??? Надо ли ID билета уменьшать?
 	if (lib.GetDB().Gives.RemoveAt(_gives.GetCurSel())) ShowAll();
 }
 
