@@ -51,6 +51,7 @@ public:
 	Give InputGive();
 	void ShowBookByIndex(int index);
 	CListBox _books;
+	std::list<GiveSummary> _deptors;
 	afx_msg void OnLbnSelchangeList3();
 	afx_msg void OnBnClickedButton3();
 	CListBox _reader;
@@ -68,4 +69,6 @@ public:
 	afx_msg void OnBnClickedButton6();
 	afx_msg void OnBnClickedButton4();
 	void LibInf();
+	afx_msg void OnBnClickedButton9();
+	CListBox _debtors;
 };

@@ -61,6 +61,7 @@ void CLAB4Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST3, _books);
 	DDX_Control(pDX, IDC_LIST4, _reader);
 	DDX_Control(pDX, IDC_LIST5, _gives);
+	DDX_Control(pDX, IDC_LIST1, _debtors);
 }
 
 BEGIN_MESSAGE_MAP(CLAB4Dlg, CDialogEx)
@@ -82,6 +83,7 @@ ON_BN_CLICKED(IDC_BUTTON7, &CLAB4Dlg::OnBnClickedButton7)
 ON_BN_CLICKED(IDC_BUTTON8, &CLAB4Dlg::OnBnClickedButton8)
 ON_BN_CLICKED(IDC_BUTTON6, &CLAB4Dlg::OnBnClickedButton6)
 ON_BN_CLICKED(IDC_BUTTON4, &CLAB4Dlg::OnBnClickedButton4)
+ON_BN_CLICKED(IDC_BUTTON9, &CLAB4Dlg::OnBnClickedButton9)
 END_MESSAGE_MAP()
 
 
@@ -464,4 +466,14 @@ void CLAB4Dlg::LibInf()
 	SetDlgItemText(IDC_EDIT28, _itow(lib.GetDB().Books.Size(),str,10));
 	SetDlgItemText(IDC_EDIT27, _itow(lib.GetDB().Readers.Size(), str, 10));
 	SetDlgItemText(IDC_EDIT26, _itow(lib.GetDB().Gives.Size(), str, 10));
+}
+
+void CLAB4Dlg::OnBnClickedButton9()
+{
+	// очистка всех должников
+	_debtors.ResetContent();
+	// вывод должников
+	_deptors = lib.GetDeptors();
+	for each(auto i in _deptors)
+		_debtors.AddString(i.ToString());
 }
