@@ -8,12 +8,11 @@ Library::Library()
 	_db = new DataBase();
 }
 
-
 Library::~Library()
 {
 	delete _db;
 }
-int Library::FindBookListIndex(CString bookName)				// возвращает индекс книги в списке
+int Library::FindBookListIndex(CString bookName)					// возвращает индекс книги в списке
 {
 	int index = 0;
 	for (auto i = GetDB().Books._data.begin(); i != GetDB().Books._data.end();++i,++index) {
@@ -21,7 +20,7 @@ int Library::FindBookListIndex(CString bookName)				// возвращает индекс книги в
 	}
 	return -1;
 }
-std::list<GiveSummary> Library::GetOverdue()					// возвращает информацию обо всех просроках
+std::list<GiveSummary> Library::GetOverdue()						// возвращает информацию обо всех просроках
 {
 	std::list<GiveSummary> res;
 	time_t rawtime;
@@ -39,7 +38,7 @@ std::list<GiveSummary> Library::GetOverdue()					// возвращает информацию обо вс
 	}
 	return res;
 }
-std::list<GiveSummary> Library::GetDeptors()		// возвращает список всех должников
+std::list<GiveSummary> Library::GetDeptors()						// возвращает список всех должников
 {
 	std::list<GiveSummary> res;
 	auto owd = GetOverdue();

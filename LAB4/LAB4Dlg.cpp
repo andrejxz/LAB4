@@ -84,6 +84,7 @@ ON_BN_CLICKED(IDC_BUTTON8, &CLAB4Dlg::OnBnClickedButton8)
 ON_BN_CLICKED(IDC_BUTTON6, &CLAB4Dlg::OnBnClickedButton6)
 ON_BN_CLICKED(IDC_BUTTON4, &CLAB4Dlg::OnBnClickedButton4)
 ON_BN_CLICKED(IDC_BUTTON9, &CLAB4Dlg::OnBnClickedButton9)
+ON_BN_CLICKED(IDC_BUTTON10, &CLAB4Dlg::OnBnClickedButton10)
 END_MESSAGE_MAP()
 
 
@@ -460,6 +461,9 @@ void CLAB4Dlg::OnBnClickedButton8()
 void CLAB4Dlg::LibInf()
 {
 	wchar_t str[80];
+	SetDlgItemText(IDC_EDIT24, lib.GetName());
+	SetDlgItemText(IDC_EDIT25, lib.GetAddres());
+	SetDlgItemText(IDC_EDIT29, lib.GetPhone());
 	SetDlgItemText(IDC_EDIT28, _itow(lib.GetDB().Books.Size(),str,10));
 	SetDlgItemText(IDC_EDIT27, _itow(lib.GetDB().Readers.Size(), str, 10));
 	SetDlgItemText(IDC_EDIT26, _itow(lib.GetDB().Gives.Size(), str, 10));
@@ -473,4 +477,16 @@ void CLAB4Dlg::OnBnClickedButton9()
 	_deptors = lib.GetDeptors();
 	for each(auto i in _deptors)
 		_debtors.AddString(i.ToString());
+}
+
+
+void CLAB4Dlg::OnBnClickedButton10()
+{
+	CString str;
+	GetDlgItemText(IDC_EDIT24, str);
+	lib.SetName(str);
+	GetDlgItemText(IDC_EDIT25, str);
+	lib.SetAddres(str);
+	GetDlgItemText(IDC_EDIT29, str);
+	lib.SetPhone(str);
 }
