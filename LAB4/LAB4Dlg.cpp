@@ -398,7 +398,7 @@ void CLAB4Dlg::OnLbnDblclkList5()
 void CLAB4Dlg::ShowGive(Give give)
 {
 	wchar_t str[80];
-	// ???
+	
 	_books.SetCurSel(give.GetBookId()-1);
 	ShowBookByIndex(give.GetBookId()-1);
 	_reader.SetCurSel(give.GetReaderId()-1);
