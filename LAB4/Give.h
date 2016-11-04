@@ -27,7 +27,9 @@ public:
 	virtual CString ToString() 
 	{
 		wchar_t str[80];
-		return _itow(GetBookId(), str, 10);
+		CString ID;
+		ID.Format(_T("%u"), this->GetId());
+		return ID + L". " + _itow(GetBookId(), str, 10);;
 	}
 };
 

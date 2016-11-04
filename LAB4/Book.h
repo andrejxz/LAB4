@@ -29,6 +29,11 @@ public:
 	void SetCount(unsigned count) { _count = count; }
 	void SetGiveCount(unsigned giveCount) { _giveCount = giveCount; }
 
-	virtual CString ToString() { return GetName(); }
+	virtual CString ToString()
+	{
+		CString ID;
+		ID.Format(_T("%u"), this->GetId());
+		return ID + L". " + GetName();
+	}
 };
 

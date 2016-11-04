@@ -50,9 +50,10 @@ public:
 	void ShowGive(Give give);
 	Give InputGive();
 	void ShowBookByIndex(int index);
+	void ShowReaderByIndex(int index);
 	CListBox _books;
 	std::list<GiveSummary> _deptors;
-	afx_msg void OnLbnSelchangeList3();
+//	afx_msg void OnLbnSelchangeList3();
 	afx_msg void OnBnClickedButton3();
 	CListBox _reader;
 	CListBox _gives;

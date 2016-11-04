@@ -69,7 +69,7 @@ BEGIN_MESSAGE_MAP(CLAB4Dlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON1, &CLAB4Dlg::OnBnClickedButton1)
-	ON_LBN_SELCHANGE(IDC_LIST3, &CLAB4Dlg::OnLbnSelchangeList3)
+//	ON_LBN_SELCHANGE(IDC_LIST3, &CLAB4Dlg::OnLbnSelchangeList3)
 	ON_BN_CLICKED(IDC_BUTTON3, &CLAB4Dlg::OnBnClickedButton3)
 	ON_BN_CLICKED(IDC_BUTTON5, &CLAB4Dlg::OnBnClickedButton5)
 //	ON_LBN_SELCHANGE(IDC_LIST4, &CLAB4Dlg::OnLbnSelchangeList4)
@@ -257,6 +257,7 @@ Give CLAB4Dlg::InputGive()
 	newGive.SetReturnDate(date);
 	return newGive;
 }
+
 // Добавление выдачи
 void CLAB4Dlg::OnBnClickedButton5()
 {
@@ -323,15 +324,21 @@ void CLAB4Dlg::ShowGives()
 		_gives.AddString(i->second.ToString());
 }
 
-void CLAB4Dlg::OnLbnSelchangeList3()
-{
-	UpdateWindow();	
-}
-
 // Получение id выбраного элемента двойным нажатием
 void CLAB4Dlg::OnLbnDblclkList3()
 {
 	ShowBookByIndex(_books.GetCurSel());
+}
+
+// Получение id выбраного элемента двойным нажатием
+void CLAB4Dlg::ShowReaderByIndex(int index)
+{
+	for (auto i = lib.GetDB().Readers._data.begin(); i != lib.GetDB().Readers._data.end(); ++i, --index) {
+		if (index == 0) {
+			ShowReader(i->second);
+			return;
+		}
+	}
 }
 
 void CLAB4Dlg::ShowBookByIndex(int index)
@@ -360,15 +367,7 @@ void CLAB4Dlg::ShowBook(Book book)
 // Получение id выбраного элемента двойным нажатием
 void CLAB4Dlg::OnLbnDblclkList4()
 {
-	int curindex = _reader.GetCurSel();
-	int index = 0;
-	for (auto i = lib.GetDB().Readers._data.begin(); i != lib.GetDB().Readers._data.end(); ++i) {
-		if (index == curindex) {
-			ShowReader(i->second);
-			return;
-		}
-		++index;
-	}
+	ShowReaderByIndex(_reader.GetCurSel());
 }
 
 // Показ информации Читателя
@@ -399,6 +398,13 @@ void CLAB4Dlg::OnLbnDblclkList5()
 void CLAB4Dlg::ShowGive(Give give)
 {
 	wchar_t str[80];
+	// ???
+	_books.SetCurSel(give.GetBookId()-1);
+	ShowBookByIndex(give.GetBookId()-1);
+	_reader.SetCurSel(give.GetReaderId()-1);
+	ShowReaderByIndex(give.GetReaderId() - 1);
+	
+
 	SetDlgItemText(IDC_EDIT22, _itow(give.GetId(), str, 10));
 	SetDlgItemText(IDC_EDIT13, _itow(give.GetReaderId(), str, 10));
 	SetDlgItemText(IDC_EDIT14, _itow(give.GetBookId(),str,10));

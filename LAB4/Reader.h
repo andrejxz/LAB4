@@ -18,5 +18,10 @@ public:
 	void SetFio(CString fio) { _fio = fio; }
 	void SetAddress(CString address) { _address = address; }
 	void SetPhone(CString phone) { _phone = phone; }
-	virtual CString ToString() { return GetFio(); }
+	virtual CString ToString()
+	{
+		CString ID;
+		ID.Format(_T("%u"), this->GetId());
+		return ID + L". " + GetFio();
+	}
 };
