@@ -85,6 +85,7 @@ ON_BN_CLICKED(IDC_BUTTON6, &CLAB4Dlg::OnBnClickedButton6)
 ON_BN_CLICKED(IDC_BUTTON4, &CLAB4Dlg::OnBnClickedButton4)
 ON_BN_CLICKED(IDC_BUTTON9, &CLAB4Dlg::OnBnClickedButton9)
 ON_BN_CLICKED(IDC_BUTTON10, &CLAB4Dlg::OnBnClickedButton10)
+ON_BN_CLICKED(IDC_BUTTON11, &CLAB4Dlg::OnBnClickedButton11)
 END_MESSAGE_MAP()
 
 
@@ -495,4 +496,78 @@ void CLAB4Dlg::OnBnClickedButton10()
 	lib.SetAddres(str);
 	GetDlgItemText(IDC_EDIT29, str);
 	lib.SetPhone(str);
+}
+
+void CLAB4Dlg::OnBnClickedButton11()
+{
+	lib._penya = 2.17;
+	// вставка книг
+	Book book;
+	book.SetName(L"Book 1");
+	lib.GetDB().Books.AddNewRow(book);
+	book.SetName(L"Book 2");
+	lib.GetDB().Books.AddNewRow(book);
+	book.SetName(L"Book 3");
+	lib.GetDB().Books.AddNewRow(book);
+	book.SetName(L"Book 4");
+	lib.GetDB().Books.AddNewRow(book);
+	book.SetName(L"Book 5");
+	lib.GetDB().Books.AddNewRow(book);
+
+	// вставка читателей
+	Reader reader;
+	reader.SetFio(L"Reader 1");
+	lib.GetDB().Readers.AddNewRow(reader);
+	reader.SetFio(L"Reader 2");
+	lib.GetDB().Readers.AddNewRow(reader);
+	reader.SetFio(L"Reader 3");
+	lib.GetDB().Readers.AddNewRow(reader);
+	reader.SetFio(L"Reader 4");
+	lib.GetDB().Readers.AddNewRow(reader);
+	reader.SetFio(L"Reader 5");
+	lib.GetDB().Readers.AddNewRow(reader);
+
+	// вставка выдачи книг
+	Give give;
+
+	// 1 читатель (3 КНИГИ ЗАДОЛЖАЛ)
+	give.SetReaderId(1);
+	give.SetBookId(1);
+	give.SetReturnDate(Date(1, 11, 2016));
+	lib.GetDB().Gives.AddNewRow(give);
+
+	give.SetReaderId(1);
+	give.SetBookId(2);
+	give.SetReturnDate(Date(2, 11, 2016));
+	lib.GetDB().Gives.AddNewRow(give);
+
+	give.SetReaderId(1);
+	give.SetBookId(3);
+	give.SetReturnDate(Date(3, 11, 2016));
+	lib.GetDB().Gives.AddNewRow(give);
+
+	give.SetReaderId(1);
+	give.SetBookId(4);
+	give.SetReturnDate(Date(1, 11, 2017));
+	lib.GetDB().Gives.AddNewRow(give);
+
+	// 2 пользователь - ничего не должен
+	give.SetReaderId(2);
+	give.SetBookId(1);
+	give.SetReturnDate(Date(1, 11, 2017));
+	lib.GetDB().Gives.AddNewRow(give);
+
+	give.SetReaderId(2);
+	give.SetBookId(3);
+	give.SetReturnDate(Date(1, 11, 2017));
+	lib.GetDB().Gives.AddNewRow(give);
+
+	// 3 пользователь  должен 1 книгу
+	give.SetReaderId(3);
+	give.SetBookId(1);
+	give.SetReturnDate(Date(1, 11, 2015));
+	lib.GetDB().Gives.AddNewRow(give);
+
+
+	ShowAll();
 }

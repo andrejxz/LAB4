@@ -45,16 +45,22 @@ std::list<GiveSummary> Library::GetDeptors()						// возвращает список всех долж
 	bool found;
 	for each(auto i in owd) {
 		// проверка есть ли должник в результате
-		found = false;
-		for each(auto j in res)
-			if (j.GetReader().GetId() == i.GetReader().GetId()) {
-				found = true;
-				j._penya += GiveSummary::CalcPenya(i.GetGive(), _penya);
+		found = false;	// есть ли должник уже в результате
+		for each(auto j in res)	// бежим по всем результатам по должникам
+			if (j.GetReader().GetId() == i.GetReader().GetId()) { // если j должник уже есть в результате
+				found = true;	// говорим, что вставлять его повторно не нужно
 				break;
 			}
 		if (found) continue;
+		// расчет суммы долга должника
+		GiveSummary summary(i);
+		summary._penya = 0;
+		for each(auto j in owd) {
+			if (j.GetReader().GetId() == i.GetReader().GetId()) 
+				summary._penya += j._penya;
+		}
 		// вставка должника
-		res.push_back(i);
+		res.push_back(summary);
 	}
 		
 	return res;

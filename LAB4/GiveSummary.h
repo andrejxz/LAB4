@@ -56,7 +56,7 @@ public:
 		res += (delta > 0) ? delta : 0;
 
 		// ???
-		return res;
+		return res*dayPenya;
 	}
 	static GiveSummary Make(Give &give, DataBase &db, double dayPenya)
 	{
@@ -73,9 +73,8 @@ public:
 	CString ToString()
 	{
 		CString str;
-		str.Format(_T("%f"), _penya);
+		str.Format(_T("%.2f"), _penya);
 		return _reader.ToString() + L" " + str;
 		//return _reader.ToString();
 	}
 };
-

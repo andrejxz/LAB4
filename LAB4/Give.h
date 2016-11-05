@@ -19,7 +19,7 @@ public:
 	Date GetGiveDate() { return _giveDate; }
 	Date GetReturnDate() { return _returnDate; }
 
-	void SetReaderId(unsigned resder_id) { _reader_id = resder_id; }
+	void SetReaderId(unsigned reader_id) { _reader_id = reader_id; }
 	void SetBookId(unsigned book_id) { _book_id = book_id; }
 	void SetCopyNumber(unsigned copyNumber) { _copyNumber = copyNumber; }
 	void SetGiveDate(Date giveDate) { _giveDate = giveDate; }
@@ -29,7 +29,7 @@ public:
 		wchar_t str[80];
 		CString ID;
 		ID.Format(_T("%u"), this->GetId());
-		return ID + L". " + _itow(GetBookId(), str, 10);;
+		return ID + L". " + _itow(GetBookId(), str, 10);
 	}
 };
 

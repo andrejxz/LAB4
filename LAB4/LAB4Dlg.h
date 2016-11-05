@@ -73,4 +73,5 @@ public:
 	afx_msg void OnBnClickedButton9();
 	CListBox _debtors;
 	afx_msg void OnBnClickedButton10();
+	afx_msg void OnBnClickedButton11();
 };
