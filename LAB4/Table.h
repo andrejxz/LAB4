@@ -59,6 +59,7 @@ public:
 		if (_data.find(row.GetId()) == _data.end()) return false;
 		// смена значения
 		_data[row.GetId()] = row;
+		return true;
 	}
 	void Remove(unsigned id)						// удаление из map
 	{

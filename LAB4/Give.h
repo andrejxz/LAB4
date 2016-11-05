@@ -29,7 +29,7 @@ public:
 		wchar_t str[80];
 		CString ID;
 		ID.Format(_T("%u"), this->GetId());
-		return ID + L". " + _itow(GetBookId(), str, 10);
+		return ID + L". Tiket " + _itow(GetReaderId(), str, 10);
 	}
 };
 

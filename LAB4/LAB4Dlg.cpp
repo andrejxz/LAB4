@@ -76,7 +76,7 @@ BEGIN_MESSAGE_MAP(CLAB4Dlg, CDialogEx)
 //ON_LBN_DBLCLK(IDC_LIST3, &CLAB4Dlg::OnLbnDblclkList3)
 ON_LBN_DBLCLK(IDC_LIST3, &CLAB4Dlg::OnLbnDblclkList3)
 ON_LBN_DBLCLK(IDC_LIST4, &CLAB4Dlg::OnLbnDblclkList4)
-ON_BN_CLICKED(IDOK, &CLAB4Dlg::OnBnClickedOk)
+//ON_BN_CLICKED(IDOK, &CLAB4Dlg::OnBnClickedOk)
 ON_LBN_DBLCLK(IDC_LIST5, &CLAB4Dlg::OnLbnDblclkList5)
 ON_BN_CLICKED(IDC_BUTTON2, &CLAB4Dlg::OnBnClickedButton2)
 ON_BN_CLICKED(IDC_BUTTON7, &CLAB4Dlg::OnBnClickedButton7)
@@ -184,8 +184,7 @@ void CLAB4Dlg::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
 
 /*****************************************************************************************************/
 
-// Добавление книги
-void CLAB4Dlg::OnBnClickedButton1()
+void CLAB4Dlg::OnBnClickedButton1()							// Добавление книги
 {
 	Book newBook;
 	CString str;
@@ -206,8 +205,7 @@ void CLAB4Dlg::OnBnClickedButton1()
 	ShowAll();
 }
 
-// Добавление читателя
-void CLAB4Dlg::OnBnClickedButton3()
+void CLAB4Dlg::OnBnClickedButton3()							// Добавление читателя
 {
 	Reader newReader;
 	CString str;
@@ -259,8 +257,7 @@ Give CLAB4Dlg::InputGive()
 	return newGive;
 }
 
-// Добавление выдачи
-void CLAB4Dlg::OnBnClickedButton5()
+void CLAB4Dlg::OnBnClickedButton5()							// Добавление выдачи
 {
 	lib.GetDB().Gives.AddNewRow(InputGive());
 	ShowAll();
@@ -274,8 +271,7 @@ void CLAB4Dlg::ShowAll()
 	LibInf();
 }
 
-// Вывод списка книг
-void CLAB4Dlg::ShowBooks()
+void CLAB4Dlg::ShowBooks()									// Вывод списка книг
 {
 	// Очистка полей
 	SetDlgItemText(IDC_EDIT21, L"");
@@ -291,8 +287,7 @@ void CLAB4Dlg::ShowBooks()
 		_books.AddString(i->second.ToString());
 }
 
-// Вывод списка читателей
-void CLAB4Dlg::ShowReaders()
+void CLAB4Dlg::ShowReaders()								// Вывод списка читателей
 {
 	// Очистка полей
 	SetDlgItemText(IDC_EDIT9, L"");
@@ -305,8 +300,7 @@ void CLAB4Dlg::ShowReaders()
 		_reader.AddString(i->second.ToString());
 }
 
-// Вывод списка выдачи
-void CLAB4Dlg::ShowGives()
+void CLAB4Dlg::ShowGives()									// Вывод списка выдачи
 {
 	// Очистка полей
 	SetDlgItemText(IDC_EDIT13, L"");
@@ -325,14 +319,12 @@ void CLAB4Dlg::ShowGives()
 		_gives.AddString(i->second.ToString());
 }
 
-// Получение id выбраного элемента двойным нажатием
-void CLAB4Dlg::OnLbnDblclkList3()
+void CLAB4Dlg::OnLbnDblclkList3()							// Получение id выбраного элемента двойным нажатием
 {
 	ShowBookByIndex(_books.GetCurSel());
 }
 
-// Получение id выбраного элемента двойным нажатием
-void CLAB4Dlg::ShowReaderByIndex(int index)
+void CLAB4Dlg::ShowReaderByIndex(int index)					// Показ читателя по индексу
 {
 	for (auto i = lib.GetDB().Readers._data.begin(); i != lib.GetDB().Readers._data.end(); ++i, --index) {
 		if (index == 0) {
@@ -342,7 +334,7 @@ void CLAB4Dlg::ShowReaderByIndex(int index)
 	}
 }
 
-void CLAB4Dlg::ShowBookByIndex(int index)
+void CLAB4Dlg::ShowBookByIndex(int index)					// Показ книги по индексу
 {
 	for (auto i = lib.GetDB().Books._data.begin(); i != lib.GetDB().Books._data.end(); ++i, --index) {
 		if (index == 0) {
@@ -352,27 +344,26 @@ void CLAB4Dlg::ShowBookByIndex(int index)
 	}
 }
 
-// Показ информации о книге
-void CLAB4Dlg::ShowBook(Book book)
+void CLAB4Dlg::ShowBook(Book book)							// Показ информации о книге
 {
 	wchar_t str[80];
+	CString coast;
 	SetDlgItemText(IDC_EDIT21, _itow(book.GetId(),str,10));
 	SetDlgItemText(IDC_EDIT1, book.GetName());
 	SetDlgItemText(IDC_EDIT2, book.GetAuthor());
 	SetDlgItemText(IDC_EDIT3, _itow(book.GetYear(), str,10));
-	SetDlgItemText(IDC_EDIT4, _itow(book.GetCost(), str,10));
+	coast.Format(_T("%.2f"), book.GetCost());
+	SetDlgItemText(IDC_EDIT4, coast);
 	SetDlgItemText(IDC_EDIT5, _itow(book.GetCount(), str,10));
 	SetDlgItemText(IDC_EDIT6, _itow(book.GetGiveCount(), str,10));
 }
 
-// Получение id выбраного элемента двойным нажатием
-void CLAB4Dlg::OnLbnDblclkList4()
+void CLAB4Dlg::OnLbnDblclkList4()							// Получение id выбраного элемента двойным нажатием
 {
 	ShowReaderByIndex(_reader.GetCurSel());
 }
 
-// Показ информации Читателя
-void CLAB4Dlg::ShowReader(Reader reader)
+void CLAB4Dlg::ShowReader(Reader reader)					// Показ информации Читателя
 {
 	wchar_t str[80];
 	SetDlgItemText(IDC_EDIT9, _itow(reader.GetId(),str,10));
@@ -381,8 +372,7 @@ void CLAB4Dlg::ShowReader(Reader reader)
 	SetDlgItemText(IDC_EDIT12, reader.GetPhone());
 }
 
-// Получение id выбраного элемента двойным нажатием
-void CLAB4Dlg::OnLbnDblclkList5()
+void CLAB4Dlg::OnLbnDblclkList5()							// Получение id выбраного элемента двойным нажатием
 {
 	int curindex = _gives.GetCurSel();
 	int index = 0;
@@ -395,8 +385,7 @@ void CLAB4Dlg::OnLbnDblclkList5()
 	}
 }
 
-// Показ информации Выдачи
-void CLAB4Dlg::ShowGive(Give give)
+void CLAB4Dlg::ShowGive(Give give)							// Показ информации Выдачи
 {
 	wchar_t str[80];
 	
@@ -418,40 +407,34 @@ void CLAB4Dlg::ShowGive(Give give)
 	SetDlgItemText(IDC_EDIT20, _itow(give.GetReturnDate().GetYear(), str, 10));
 }
 
+//void CLAB4Dlg::OnBnClickedOk()
+//{
+//	// TODO: добавьте свой код обработчика уведомлений
+//	CDialogEx::OnOK();
+//}
 
-void CLAB4Dlg::OnBnClickedOk()
-{
-	// TODO: добавьте свой код обработчика уведомлений
-	CDialogEx::OnOK();
-}
-
-// Удаление Книги
-void CLAB4Dlg::OnBnClickedButton2()
+void CLAB4Dlg::OnBnClickedButton2()							// Удаление Книги
 {
 	if (lib.GetDB().Books.RemoveAt(_books.GetCurSel())) ShowAll();
 }
 
-// Удаление Читателя
-void CLAB4Dlg::OnBnClickedButton4()
+void CLAB4Dlg::OnBnClickedButton4()							// Удаление Читателя
 {
 	if (lib.GetDB().Readers.RemoveAt(_reader.GetCurSel())) ShowAll();
 }
 
-// Удаление Выдачи
-void CLAB4Dlg::OnBnClickedButton6()
+void CLAB4Dlg::OnBnClickedButton6()							// Удаление Выдачи
 {
 	if (lib.GetDB().Gives.RemoveAt(_gives.GetCurSel())) ShowAll();
 }
 
-// Изменение выдачи
-void CLAB4Dlg::OnBnClickedButton7()
+void CLAB4Dlg::OnBnClickedButton7()							// Изменение выдачи
 {
 	if(lib.GetDB().Gives.EditRow(InputGive())) ShowGives();
 	else MessageBox(L"Выдачу изменить не удалось - не верный id выдачи", L"Изменение выдачи");
 }
 
-// Поиск книги
-void CLAB4Dlg::OnBnClickedButton8()
+void CLAB4Dlg::OnBnClickedButton8()							// Поиск книги
 {
 	// читаем имя книги
 	CString bookName;
@@ -464,8 +447,7 @@ void CLAB4Dlg::OnBnClickedButton8()
 	else MessageBox(L"Книга не найдена", L"Поиск книги");
 }
 
-// Информация о библиотеке
-void CLAB4Dlg::LibInf()
+void CLAB4Dlg::LibInf()										// Информация о библиотеке
 {
 	wchar_t str[80];
 	SetDlgItemText(IDC_EDIT24, lib.GetName());
@@ -474,20 +456,23 @@ void CLAB4Dlg::LibInf()
 	SetDlgItemText(IDC_EDIT28, _itow(lib.GetDB().Books.Size(),str,10));
 	SetDlgItemText(IDC_EDIT27, _itow(lib.GetDB().Readers.Size(), str, 10));
 	SetDlgItemText(IDC_EDIT26, _itow(lib.GetDB().Gives.Size(), str, 10));
+	SetDlgItemText(IDC_EDIT30, _itow(lib._penya, str, 10));
 }
 
-void CLAB4Dlg::OnBnClickedButton9()
+void CLAB4Dlg::OnBnClickedButton9()							// Должники
 {
-	// очистка всех должников
+	CString penya;
+	GetDlgItemText(IDC_EDIT30, penya);
+	lib._penya = _ttof(penya);
+	// Очистка всех должников
 	_debtors.ResetContent();
-	// вывод должников
+	// Вывод должников
 	_deptors = lib.GetDeptors();
 	for each(auto i in _deptors)
 		_debtors.AddString(i.ToString());
 }
 
-
-void CLAB4Dlg::OnBnClickedButton10()
+void CLAB4Dlg::OnBnClickedButton10()						// Ок
 {
 	CString str;
 	GetDlgItemText(IDC_EDIT24, str);
@@ -498,39 +483,75 @@ void CLAB4Dlg::OnBnClickedButton10()
 	lib.SetPhone(str);
 }
 
-void CLAB4Dlg::OnBnClickedButton11()
+void CLAB4Dlg::OnBnClickedButton11()						// Тест
 {
-	lib._penya = 2.17;
+	// вставка информации о библиотеке
+	lib.SetName(L"Незнайка");
+	lib.SetPhone(L"228-14-88");
+	lib.SetAddres(L"Nagib 13-37");
+
 	// вставка книг
 	Book book;
 	book.SetName(L"Book 1");
+	book.SetAuthor(L"Author 1");
+	book.SetYear(1997);
+	book.SetCost(250.75);
 	lib.GetDB().Books.AddNewRow(book);
+
 	book.SetName(L"Book 2");
+	book.SetAuthor(L"Author 2");
+	book.SetYear(2000);
+	book.SetCost(300.65);
 	lib.GetDB().Books.AddNewRow(book);
+
 	book.SetName(L"Book 3");
+	book.SetAuthor(L"Author 3");
+	book.SetYear(2005);
+	book.SetCost(600);
 	lib.GetDB().Books.AddNewRow(book);
+
 	book.SetName(L"Book 4");
+	book.SetAuthor(L"Author 4");
+	book.SetYear(2010);
+	book.SetCost(750.25);
 	lib.GetDB().Books.AddNewRow(book);
 	book.SetName(L"Book 5");
+	book.SetAuthor(L"Author 5");
+	book.SetYear(2016);
+	book.SetCost(1200.50);
 	lib.GetDB().Books.AddNewRow(book);
 
 	// вставка читателей
 	Reader reader;
 	reader.SetFio(L"Reader 1");
+	reader.SetAddress(L"Address 1");
+	reader.SetPhone(L"Phone 1");
 	lib.GetDB().Readers.AddNewRow(reader);
+
 	reader.SetFio(L"Reader 2");
+	reader.SetAddress(L"Address 2");
+	reader.SetPhone(L"Phone 2");
 	lib.GetDB().Readers.AddNewRow(reader);
+
 	reader.SetFio(L"Reader 3");
+	reader.SetAddress(L"Address 3");
+	reader.SetPhone(L"Phone 3");
 	lib.GetDB().Readers.AddNewRow(reader);
+
 	reader.SetFio(L"Reader 4");
+	reader.SetAddress(L"Address 4");
+	reader.SetPhone(L"Phone 5");
 	lib.GetDB().Readers.AddNewRow(reader);
+
 	reader.SetFio(L"Reader 5");
+	reader.SetAddress(L"Address 5");
+	reader.SetPhone(L"Phone 5");
 	lib.GetDB().Readers.AddNewRow(reader);
 
 	// вставка выдачи книг
 	Give give;
 
-	// 1 читатель (3 КНИГИ ЗАДОЛЖАЛ)
+	// 1 пользователь - 3 книги задолжал
 	give.SetReaderId(1);
 	give.SetBookId(1);
 	give.SetReturnDate(Date(1, 11, 2016));

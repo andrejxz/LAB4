@@ -62,7 +62,7 @@ public:
 //	afx_msg void OnLbnDblclkList3();
 	afx_msg void OnLbnDblclkList3();
 	afx_msg void OnLbnDblclkList4();
-	afx_msg void OnBnClickedOk();
+//	afx_msg void OnBnClickedOk();
 	afx_msg void OnLbnDblclkList5();
 	afx_msg void OnBnClickedButton2();
 	afx_msg void OnBnClickedButton7();

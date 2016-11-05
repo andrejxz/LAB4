@@ -74,7 +74,6 @@ public:
 	{
 		CString str;
 		str.Format(_T("%.2f"), _penya);
-		return _reader.ToString() + L" " + str;
-		//return _reader.ToString();
+		return _reader.ToString() + L"    " + str;
 	}
 };
