@@ -34,6 +34,7 @@ std::list<GiveSummary> Library::GetOverdue()						// возвращает информацию обо в
 		if (date.GetYear() < timeinfo->tm_year + 1900 ||
 			date.GetYear() == timeinfo->tm_year + 1900 && date.GetMonth() < timeinfo->tm_mon + 1 ||
 			date.GetYear() == timeinfo->tm_year + 1900 && date.GetMonth() == timeinfo->tm_mon + 1 && date.GetDay() < timeinfo->tm_mday)
+			///???
 			res.push_back(GiveSummary::Make(i.second, *_db, _penya));
 	}
 	return res;

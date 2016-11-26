@@ -45,10 +45,13 @@ public:
 	void ShowBooks();
 	void ShowReaders();
 	void ShowGives();
+	void ShowJournals();
+	void ShowJournal(Journal journal);
 	void ShowBook(Book book);
 	void ShowReader(Reader reader);
 	void ShowGive(Give give);
 	Give InputGive();
+	void ShowJournalByIndex(int index);
 	void ShowBookByIndex(int index);
 	void ShowReaderByIndex(int index);
 	CListBox _books;
@@ -75,4 +78,6 @@ public:
 	afx_msg void OnBnClickedButton10();
 	afx_msg void OnBnClickedButton11();
 	afx_msg void OnBnClickedButton12();
+	CListBox _journals;
+	afx_msg void OnLbnDblclkList2();
 };

@@ -23,7 +23,7 @@ public:
 		_prototype = prototype;
 		((TableRow&)_prototype).SetId(0);
 	}
-	
+
 	Table()
 	{
 	}
@@ -69,9 +69,9 @@ public:
 	{
 		_data.clear();
 	}
-	bool RemoveAt(int index)						
+	bool RemoveAt(int index)
 	{
-		for (auto i =_data.begin();i !=_data.end() && index>=0;++i, --index)
+		for (auto i = _data.begin(); i != _data.end() && index >= 0; ++i, --index)
 			if (index == 0) {
 				Remove(i->second.GetId());
 				return true;

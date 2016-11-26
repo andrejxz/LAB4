@@ -66,6 +66,7 @@ void CLAB4Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST4, _reader);
 	DDX_Control(pDX, IDC_LIST5, _gives);
 	DDX_Control(pDX, IDC_LIST1, _debtors);
+	DDX_Control(pDX, IDC_LIST2, _journals);
 }
 
 BEGIN_MESSAGE_MAP(CLAB4Dlg, CDialogEx)
@@ -91,6 +92,7 @@ ON_BN_CLICKED(IDC_BUTTON9, &CLAB4Dlg::OnBnClickedButton9)
 ON_BN_CLICKED(IDC_BUTTON10, &CLAB4Dlg::OnBnClickedButton10)
 ON_BN_CLICKED(IDC_BUTTON11, &CLAB4Dlg::OnBnClickedButton11)
 ON_BN_CLICKED(IDC_BUTTON12, &CLAB4Dlg::OnBnClickedButton12)
+ON_LBN_DBLCLK(IDC_LIST2, &CLAB4Dlg::OnLbnDblclkList2)
 END_MESSAGE_MAP()
 
 
@@ -273,7 +275,21 @@ void CLAB4Dlg::ShowAll()
 	ShowBooks();
 	ShowReaders();
 	ShowGives();
+	ShowJournals();
 	LibInf();
+}
+
+void CLAB4Dlg::ShowJournals()
+{
+	SetDlgItemText(IDC_EDIT31, L"");
+	SetDlgItemText(IDC_EDIT32, L"");
+	SetDlgItemText(IDC_EDIT33, L"");
+	SetDlgItemText(IDC_EDIT34, L"");
+	SetDlgItemText(IDC_EDIT35, L"");
+	SetDlgItemText(IDC_EDIT37, L"");
+	_journals.ResetContent();
+	for each(auto i in lib.GetDB().Journals._data)
+		_journals.AddString(i.second.ToString());
 }
 
 void CLAB4Dlg::ShowBooks()									// Вывод списка книг
@@ -327,6 +343,39 @@ void CLAB4Dlg::ShowGives()									// Вывод списка выдачи
 void CLAB4Dlg::OnLbnDblclkList3()							// Получение id выбраного элемента двойным нажатием
 {
 	ShowBookByIndex(_books.GetCurSel());
+}
+
+void CLAB4Dlg::OnLbnDblclkList2()
+{
+	ShowJournalByIndex(_journals.GetCurSel());
+
+}
+
+void CLAB4Dlg::ShowJournalByIndex(int index)					// Показ читателя по индексу
+{
+	for (auto i = lib.GetDB().Journals._data.begin(); i != lib.GetDB().Journals._data.end(); ++i, --index) {
+		if (index == 0) {
+			ShowJournal(i->second);
+			return;
+		}
+	}
+}
+
+void CLAB4Dlg::ShowJournal(Journal journal) 
+{
+	wchar_t str[80];
+	CString coast;
+	SetDlgItemText(IDC_EDIT31, _itow(journal.GetId(), str, 10));
+	SetDlgItemText(IDC_EDIT32, journal.GetName());
+	SetDlgItemText(IDC_EDIT33, journal.GetAuthor());
+	SetDlgItemText(IDC_EDIT34, _itow(journal.GetNum(), str, 10));
+	
+	SetDlgItemText(IDC_EDIT35, _itow(journal.GetReleaseDate().GetDay(), str, 10));
+	SetDlgItemText(IDC_EDIT38, _itow(journal.GetReleaseDate().GetMonth(), str, 10));
+	SetDlgItemText(IDC_EDIT40, _itow(journal.GetReleaseDate().GetYear(), str, 10));
+
+	coast.Format(_T("%.2f"), journal.GetCost());
+	SetDlgItemText(IDC_EDIT37, coast);
 }
 
 void CLAB4Dlg::ShowReaderByIndex(int index)					// Показ читателя по индексу
@@ -398,6 +447,8 @@ void CLAB4Dlg::ShowGive(Give give)							// Показ информации Выдачи
 	ShowBookByIndex(give.GetBookId()-1);
 	_reader.SetCurSel(give.GetReaderId()-1);
 	ShowReaderByIndex(give.GetReaderId() - 1);
+	_journals.SetCurSel(give.GetJournalId() - 1);
+	ShowJournalByIndex(give.GetJournalId() - 1);
 	
 
 	SetDlgItemText(IDC_EDIT22, _itow(give.GetId(), str, 10));
@@ -490,14 +541,24 @@ void CLAB4Dlg::OnBnClickedButton10()						// Ок
 
 void CLAB4Dlg::OnBnClickedButton11()						// Тест
 {
+	
+	// вставка журналов
+	wchar_t str[80];
 	Journal journal;
-	journal.SetName(L"Book 1");
+	journal.SetName(L"Journal 1");
 	journal.SetAuthor(L"Author 1");
-	journal.SetYear(1997);
+	journal.SetNum(1);
 	journal.SetCost(250.75);
+	journal.SetReleaseDate(Date(2, 2, 2016));
 	lib.GetDB().Journals.AddNewRow(journal);
 
-
+	journal.SetName(L"Journal 2");
+	journal.SetAuthor(L"Author 2");
+	journal.SetNum(2);
+	journal.SetCost(100.50);
+	journal.SetReleaseDate(Date(2, 3, 2016));
+	lib.GetDB().Journals.AddNewRow(journal);
+	
 	// вставка информации о библиотеке
 	lib.SetName(L"Незнайка");
 	lib.SetPhone(L"228-14-88");
@@ -561,12 +622,24 @@ void CLAB4Dlg::OnBnClickedButton11()						// Тест
 	reader.SetPhone(L"Phone 5");
 	lib.GetDB().Readers.AddNewRow(reader);
 
+
+
+	reader.SetFio(L"Reader 228");
+	reader.SetAddress(L"Address 228");
+	reader.SetPhone(L"Phone 288");
+	lib.GetDB().Readers.AddNewRow(reader);
+
+
+
 	// вставка выдачи книг
 	Give give;
 
 	// 1 пользователь - 3 книги задолжал
 	give.SetReaderId(1);
-	give.SetBookId(1);
+
+	give.SetBookId(0);
+	give.SetJournalId(1);
+
 	give.SetReturnDate(Date(1, 11, 2016));
 	lib.GetDB().Gives.AddNewRow(give);
 
@@ -602,7 +675,21 @@ void CLAB4Dlg::OnBnClickedButton11()						// Тест
 	give.SetReturnDate(Date(1, 11, 2015));
 	lib.GetDB().Gives.AddNewRow(give);
 
+	
+	// 6 пользователь  должен 1 книгу
+	give.SetReaderId(6);
+	give.SetBookId(0);
+	give.SetJournalId(1);
+	give.SetReturnDate(Date(1, 11, 2015));
+	lib.GetDB().Gives.AddNewRow(give);
 
+	// 6 пользователь  должен 1 книгу
+	give.SetReaderId(5);
+	give.SetBookId(0);
+	give.SetJournalId(2);
+	give.SetReturnDate(Date(1, 11, 2015));
+	lib.GetDB().Gives.AddNewRow(give);
+	
 	ShowAll();
 }
 

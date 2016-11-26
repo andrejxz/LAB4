@@ -9,6 +9,9 @@ class Give : public TableRow
 	unsigned _reader_id = 0;
 	unsigned _book_id = 0;
 	unsigned _copyNumber = 0;
+	
+	unsigned _journal_id = 0;
+
 	Date _giveDate;
 	Date _returnDate;
 public:
@@ -31,5 +34,8 @@ public:
 		ID.Format(_T("%u"), this->GetId());
 		return ID + L". Tiket " + _itow(GetReaderId(), str, 10);
 	}
+
+	unsigned GetJournalId() { return _journal_id; }
+	void SetJournalId(unsigned journal_id) { _journal_id= journal_id; }
 };
 
