@@ -200,6 +200,7 @@
     <ClInclude Include="Library.h" />
     <ClInclude Include="Reader.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Serializer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Table.h" />
     <ClInclude Include="TableRow.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="LAB4Dlg.cpp" />
     <ClCompile Include="Library.cpp" />
     <ClCompile Include="Reader.cpp" />
+    <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

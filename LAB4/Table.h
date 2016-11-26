@@ -82,4 +82,18 @@ public:
 	{
 		return _data.size();
 	}
+
+	void Serialize(std::ostream &os)
+	{
+		size_t size = _data.size();
+		::Serialize(os, size);
+		unsigned key;
+		RowType val;
+		for each(auto value in _data) {
+			key = value.first;
+			val = value.second;
+			::Serialize(os, key);
+			::Serialize(os, val);
+		}
+	}
 };
