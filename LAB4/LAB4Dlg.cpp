@@ -6,6 +6,7 @@
 #include "LAB4Dlg.h"
 #include "afxdialogex.h"
 #include "Give.h"
+#include "Journal.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -29,6 +30,8 @@ public:
 // Реализация
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedOk();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -41,6 +44,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	ON_BN_CLICKED(IDOK, &CAboutDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -86,6 +90,7 @@ ON_BN_CLICKED(IDC_BUTTON4, &CLAB4Dlg::OnBnClickedButton4)
 ON_BN_CLICKED(IDC_BUTTON9, &CLAB4Dlg::OnBnClickedButton9)
 ON_BN_CLICKED(IDC_BUTTON10, &CLAB4Dlg::OnBnClickedButton10)
 ON_BN_CLICKED(IDC_BUTTON11, &CLAB4Dlg::OnBnClickedButton11)
+ON_BN_CLICKED(IDC_BUTTON12, &CLAB4Dlg::OnBnClickedButton12)
 END_MESSAGE_MAP()
 
 
@@ -485,6 +490,14 @@ void CLAB4Dlg::OnBnClickedButton10()						// Ок
 
 void CLAB4Dlg::OnBnClickedButton11()						// Тест
 {
+	Journal journal;
+	journal.SetName(L"Book 1");
+	journal.SetAuthor(L"Author 1");
+	journal.SetYear(1997);
+	journal.SetCost(250.75);
+	lib.GetDB().Journals.AddNewRow(journal);
+
+
 	// вставка информации о библиотеке
 	lib.SetName(L"Незнайка");
 	lib.SetPhone(L"228-14-88");
@@ -591,4 +604,16 @@ void CLAB4Dlg::OnBnClickedButton11()						// Тест
 
 
 	ShowAll();
+}
+
+void CLAB4Dlg::OnBnClickedButton12()
+{
+	CDialog::OnCancel();
+}
+
+
+void CAboutDlg::OnBnClickedOk()
+{
+	// TODO: добавьте свой код обработчика уведомлений
+	CDialogEx::OnOK();
 }

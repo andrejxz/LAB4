@@ -194,6 +194,7 @@
     <ClInclude Include="Date.h" />
     <ClInclude Include="Give.h" />
     <ClInclude Include="GiveSummary.h" />
+    <ClInclude Include="Journal.h" />
     <ClInclude Include="LAB4.h" />
     <ClInclude Include="LAB4Dlg.h" />
     <ClInclude Include="Library.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Give.cpp" />
     <ClCompile Include="GiveSummary.cpp" />
+    <ClCompile Include="Journal.cpp" />
     <ClCompile Include="LAB4.cpp" />
     <ClCompile Include="LAB4Dlg.cpp" />
     <ClCompile Include="Library.cpp" />

@@ -5,9 +5,6 @@
 
 DataBase::DataBase()
 {
-//	Book bookPrototype;
-//	bookPrototype.SetName(L"Новая книга");
-//	Books.SetPrototype(bookPrototype);
 }
 
 

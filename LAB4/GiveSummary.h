@@ -19,7 +19,7 @@ class GiveSummary
 		_penya = penya;
 	}
 public:
-	double _penya;		// начисленная пеня
+	double _penya;								// начисленная пеня
 	static Book FindBook(Give &give, DataBase &db)
 	{
 		for each(auto i in db.Books._data) {
@@ -55,7 +55,6 @@ public:
 		delta = (timeinfo->tm_mday) - (give.GetReturnDate().GetDay());
 		res += (delta > 0) ? delta : 0;
 
-		// ???
 		return res*dayPenya;
 	}
 	static GiveSummary Make(Give &give, DataBase &db, double dayPenya)
