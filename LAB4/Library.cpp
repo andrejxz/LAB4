@@ -28,6 +28,7 @@ std::list<GiveSummary> Library::GetOverdue()						// возвращает информацию обо в
 	time_t seconds = time(NULL);
 	tm* timeinfo = localtime(&seconds);
 	for each(auto i in _db->Gives._data) {
+		if (i.second.GetBookId() == 0) continue;
 		// берем дату возврата
 		auto date = i.second.GetReturnDate();
 		// если дата возврата просрочена то вывод в результат

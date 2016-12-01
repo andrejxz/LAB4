@@ -80,4 +80,8 @@ public:
 	afx_msg void OnBnClickedButton12();
 	CListBox _journals;
 	afx_msg void OnLbnDblclkList2();
+	afx_msg void OnBnClickedButton13();
+	afx_msg void OnBnClickedButton14();
+	afx_msg void OnEnKillfocusEdit14();
+	afx_msg void OnEnKillfocusEdit36();
 };

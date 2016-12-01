@@ -93,6 +93,10 @@ ON_BN_CLICKED(IDC_BUTTON10, &CLAB4Dlg::OnBnClickedButton10)
 ON_BN_CLICKED(IDC_BUTTON11, &CLAB4Dlg::OnBnClickedButton11)
 ON_BN_CLICKED(IDC_BUTTON12, &CLAB4Dlg::OnBnClickedButton12)
 ON_LBN_DBLCLK(IDC_LIST2, &CLAB4Dlg::OnLbnDblclkList2)
+ON_BN_CLICKED(IDC_BUTTON13, &CLAB4Dlg::OnBnClickedButton13)
+ON_BN_CLICKED(IDC_BUTTON14, &CLAB4Dlg::OnBnClickedButton14)
+ON_EN_KILLFOCUS(IDC_EDIT14, &CLAB4Dlg::OnEnKillfocusEdit14)
+ON_EN_KILLFOCUS(IDC_EDIT36, &CLAB4Dlg::OnEnKillfocusEdit36)
 END_MESSAGE_MAP()
 
 
@@ -461,6 +465,7 @@ void CLAB4Dlg::ShowGive(Give give)							// Показ информации Выдачи
 	SetDlgItemText(IDC_EDIT19, _itow(give.GetReturnDate().GetDay(), str, 10));
 	SetDlgItemText(IDC_EDIT18, _itow(give.GetReturnDate().GetMonth(), str, 10));
 	SetDlgItemText(IDC_EDIT20, _itow(give.GetReturnDate().GetYear(), str, 10));
+	SetDlgItemText(IDC_EDIT36, _itow(give.GetJournalId(), str, 10));
 }
 
 //void CLAB4Dlg::OnBnClickedOk()
@@ -634,43 +639,47 @@ void CLAB4Dlg::OnBnClickedButton11()						// Тест
 	// вставка выдачи книг
 	Give give;
 
-	// 1 пользователь - 3 книги задолжал
+	// 1 пользователь - 1 журнал
 	give.SetReaderId(1);
-
 	give.SetBookId(0);
 	give.SetJournalId(1);
-
 	give.SetReturnDate(Date(1, 11, 2016));
 	lib.GetDB().Gives.AddNewRow(give);
 
 	give.SetReaderId(1);
+	give.SetJournalId(0);
 	give.SetBookId(2);
 	give.SetReturnDate(Date(2, 11, 2016));
 	lib.GetDB().Gives.AddNewRow(give);
 
 	give.SetReaderId(1);
+	give.SetJournalId(0);
 	give.SetBookId(3);
 	give.SetReturnDate(Date(3, 11, 2016));
 	lib.GetDB().Gives.AddNewRow(give);
 
 	give.SetReaderId(1);
+	give.SetJournalId(0);
 	give.SetBookId(4);
 	give.SetReturnDate(Date(1, 11, 2017));
 	lib.GetDB().Gives.AddNewRow(give);
 
 	// 2 пользователь - ничего не должен
 	give.SetReaderId(2);
+	give.SetJournalId(0);
 	give.SetBookId(1);
 	give.SetReturnDate(Date(1, 11, 2017));
 	lib.GetDB().Gives.AddNewRow(give);
 
 	give.SetReaderId(2);
+	give.SetJournalId(0);
 	give.SetBookId(3);
 	give.SetReturnDate(Date(1, 11, 2017));
 	lib.GetDB().Gives.AddNewRow(give);
 
 	// 3 пользователь  должен 1 книгу
 	give.SetReaderId(3);
+	give.SetJournalId(0);
 	give.SetBookId(1);
 	give.SetReturnDate(Date(1, 11, 2015));
 	lib.GetDB().Gives.AddNewRow(give);
@@ -703,4 +712,48 @@ void CAboutDlg::OnBnClickedOk()
 {
 	// TODO: добавьте свой код обработчика уведомлений
 	CDialogEx::OnOK();
+}
+
+
+void CLAB4Dlg::OnBnClickedButton13()
+{
+	Journal newJournal;
+	CString str, str2, str3;
+	GetDlgItemText(IDC_EDIT32, str);
+	newJournal.SetName(str);
+	GetDlgItemText(IDC_EDIT33, str);
+	newJournal.SetAuthor(str);
+	GetDlgItemText(IDC_EDIT34, str);
+	newJournal.SetNum(_wtoi(str));
+	GetDlgItemText(IDC_EDIT35, str);
+	GetDlgItemText(IDC_EDIT38, str2);
+	GetDlgItemText(IDC_EDIT40, str3);
+	newJournal.SetReleaseDate(Date (_wtoi(str), _wtoi(str2), _wtoi(str3)));
+	GetDlgItemText(IDC_EDIT37, str);
+	newJournal.SetCost(_ttof(str));
+
+	lib.GetDB().Journals.AddNewRow(newJournal);
+	ShowAll();
+}
+
+
+void CLAB4Dlg::OnBnClickedButton14()
+{
+	if (lib.GetDB().Journals.RemoveAt(_journals.GetCurSel())) ShowAll();
+}
+
+
+void CLAB4Dlg::OnEnKillfocusEdit14()
+{
+	CString str;
+	GetDlgItemText(IDC_EDIT14, str);
+	if (_wtoi(str) != 0)SetDlgItemText(IDC_EDIT36, L"0");
+}
+
+
+void CLAB4Dlg::OnEnKillfocusEdit36()
+{
+	CString str;
+	GetDlgItemText(IDC_EDIT36, str);
+	if (_wtoi(str) != 0)SetDlgItemText(IDC_EDIT14, L"0");
 }
