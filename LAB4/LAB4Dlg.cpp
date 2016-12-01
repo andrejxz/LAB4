@@ -243,6 +243,8 @@ Give CLAB4Dlg::InputGive()
 	newGive.SetBookId(_wtoi(str));
 	GetDlgItemText(IDC_EDIT15, str);
 	newGive.SetCopyNumber(_wtoi(str));
+	GetDlgItemText(IDC_EDIT36, str);
+	newGive.SetJournalId(_wtoi(str));
 
 	// задаем дату выдачи
 	Date date;
