@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include <string>
 #include "TableRow.h"
+#include "Serializer.h"
 
 // описывает одну книгу
 class Book : public TableRow
@@ -36,4 +37,9 @@ public:
 		return ID + L". " + GetName();
 	}
 };
+
+template<>
+void Serialize<Book>(std::ostream &os, Book& value);
+template<>
+Book Deserialize<Book>(std::istream &is);
 

@@ -22,9 +22,9 @@ template<>
 DataBase Deserialize<DataBase>(std::istream &is)	// TODO: сделать десериализацию таблицы - см ее сериализацию
 {
 	DataBase db;
-	db.Books = Deserialize<Table<Book>>(is);
-	db.Gives = Deserialize<Table<Give>>(is);
-	db.Readers = Deserialize<Table<Reader>>(is);
+	db.Books.Dederialize(is);
+	db.Gives.Dederialize(is);
+	db.Readers.Dederialize(is);
 	return db;
 }
 

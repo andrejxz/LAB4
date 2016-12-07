@@ -1,7 +1,7 @@
 #pragma once
 #include "Book.h"
 #include "Date.h"
-
+#include "Serializer.h"
 
 // описывает журнал
 class Journal : public Book
@@ -27,3 +27,8 @@ public:
 		return ID + L". " + GetName();
 	}
 };
+
+template<>
+void Serialize<Journal>(std::ostream &os, Journal& value);
+template<>
+Journal Deserialize<Journal>(std::istream &is);

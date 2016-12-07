@@ -84,4 +84,6 @@ public:
 	afx_msg void OnBnClickedButton14();
 	afx_msg void OnEnKillfocusEdit14();
 	afx_msg void OnEnKillfocusEdit36();
+	afx_msg void OnBnClickedButton15();
+	afx_msg void OnBnClickedButton16();
 };

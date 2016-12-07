@@ -83,10 +83,15 @@ public:
 		return _data.size();
 	}
 
+	// сериализует таблицу
 	void Serialize(std::ostream &os)
 	{
+		// сериализуем текущий индекс нового элемента
+		::Serialize(os, _currentId);
+		// сериализуем размер
 		size_t size = _data.size();
 		::Serialize(os, size);
+		// сериализуем все пары ключей и значений
 		unsigned key;
 		RowType val;
 		for each(auto value in _data) {
@@ -94,6 +99,26 @@ public:
 			val = value.second;
 			::Serialize(os, key);
 			::Serialize(os, val);
+		}
+	}
+
+	// десериализует таблицу
+	void Dederialize(std::istream &is)
+	{
+		// очистка данных
+		_data.clear();
+		// десериализуем текущий индекс нового элемента
+		_currentId = Deserialize<unsigned>(is);
+		// десериализуем размер
+		auto size = Deserialize<size_t>(is);
+		// десериализуем все пары
+		while (size-->0) {
+			// десериализуем ключ
+			auto key = Deserialize<unsigned>(is);
+			// десериализуем значение
+			auto val = Deserialize<RowType>(is);
+			// вставляем пару
+			_data.insert(std::make_pair(key, val));
 		}
 	}
 };

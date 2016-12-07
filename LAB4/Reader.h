@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "TableRow.h"
 #include <string>
+#include "Serializer.h"
 
 // описывает читателя
 class Reader : public TableRow
@@ -25,3 +26,8 @@ public:
 		return ID + L". " + GetFio();
 	}
 };
+
+template<>
+void Serialize<Reader>(std::ostream &os, Reader& value);
+template<>
+Reader Deserialize<Reader>(std::istream &is);

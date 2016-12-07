@@ -17,6 +17,11 @@ public:
 	~Library();
 
 	DataBase& GetDB() { return *_db; }
+	void SetDB(DataBase *db) 
+	{
+		delete _db;
+		_db = db;
+	}
 	CString GetName() { return _name; }
 	CString GetAddres() { return _addres;}
 	CString GetPhone() { return _phone; }

@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "TableRow.h"
 #include "Date.h"
+#include "Serializer.h"
 
 // описывает одну выдачу
 class Give : public TableRow
@@ -39,3 +40,7 @@ public:
 	void SetJournalId(unsigned journal_id) { _journal_id= journal_id; }
 };
 
+template<>
+void Serialize<Give>(std::ostream &os, Give& value);
+template<>
+Give Deserialize<Give>(std::istream &is);

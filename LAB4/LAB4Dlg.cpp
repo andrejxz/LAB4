@@ -7,6 +7,8 @@
 #include "afxdialogex.h"
 #include "Give.h"
 #include "Journal.h"
+#include <fstream>
+#include "Serializer.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -97,6 +99,8 @@ ON_BN_CLICKED(IDC_BUTTON13, &CLAB4Dlg::OnBnClickedButton13)
 ON_BN_CLICKED(IDC_BUTTON14, &CLAB4Dlg::OnBnClickedButton14)
 ON_EN_KILLFOCUS(IDC_EDIT14, &CLAB4Dlg::OnEnKillfocusEdit14)
 ON_EN_KILLFOCUS(IDC_EDIT36, &CLAB4Dlg::OnEnKillfocusEdit36)
+ON_BN_CLICKED(IDC_BUTTON15, &CLAB4Dlg::OnBnClickedButton15)
+ON_BN_CLICKED(IDC_BUTTON16, &CLAB4Dlg::OnBnClickedButton16)
 END_MESSAGE_MAP()
 
 
@@ -758,4 +762,27 @@ void CLAB4Dlg::OnEnKillfocusEdit36()
 	CString str;
 	GetDlgItemText(IDC_EDIT36, str);
 	if (_wtoi(str) != 0)SetDlgItemText(IDC_EDIT14, L"0");
+}
+
+
+void CLAB4Dlg::OnBnClickedButton15()
+{
+	// создаем поток
+	std::ofstream os("db.bin");
+	if (!os.is_open()) return;
+	// сериализуем бд
+	::Serialize(os, lib.GetDB());
+}
+
+
+void CLAB4Dlg::OnBnClickedButton16()
+{
+	// создаем поток
+	std::ifstream is("db.bin");
+	if (!is.is_open()) return;
+	// десериализуем бд
+	DataBase *db = new DataBase();
+	*db = ::Deserialize<DataBase>(is);
+	lib.SetDB(db);
+	ShowAll();
 }
